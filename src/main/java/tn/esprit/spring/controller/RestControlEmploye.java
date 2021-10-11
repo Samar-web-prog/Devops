@@ -66,7 +66,6 @@ public class RestControlEmploye {
 	}
 
 	// http://localhost:8081/SpringMVC/servlet/ajouterContrat
-	//{"reference":6,"dateDebut":"2020-03-01","salaire":2000,"typeContrat":"CDD"}
 	@PostMapping("/ajouterContrat")
 	@ResponseBody
 	public int ajouterContrat(@RequestBody Contrat contrat) {
@@ -161,7 +160,7 @@ public class RestControlEmploye {
 	}
 
 	
-	//TODO
+	//TODO ListTimesheet
 	public List<Timesheet> getTimesheetsByMissionAndDate(Employe employe, Mission mission, Date dateDebut,
 			Date dateFin) {
 		return iemployeservice.getTimesheetsByMissionAndDate(employe, mission, dateDebut, dateFin);
