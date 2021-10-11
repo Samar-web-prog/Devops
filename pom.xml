@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>tn.esprit.spring</groupId>
 	<artifactId>timesheet</artifactId>
-	<version>1.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>timesheet</name>
 	<description>timesheet</description>
 
@@ -95,12 +95,30 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.16</version>
 		</dependency>
-		
+	
+<dependency>
+<groupId>org.sonarsource.scanner.maven</groupId>
+<artifactId>sonar-maven-plugin</artifactId>
+<version>3.2</version>
+</dependency>
 		<!-- JSF -->
 
 	</dependencies>
 
-
+<profiles>
+<profile>
+<id>sonar</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+</activation>
+<properties>
+<!-- Optional URL to server. Default value is http://localhost:9000 -->
+<sonar.host.url>
+http:localhost:9000
+</sonar.host.url>
+</properties>
+</profile>
+</profiles>
 
 	<build>
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
@@ -112,7 +130,7 @@
 		</plugins>
 	</build>
 	
-	
+
      <repositories>
     <repository>
       <id>maven-group</id>
