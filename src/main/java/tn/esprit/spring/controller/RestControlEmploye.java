@@ -65,13 +65,7 @@ public class RestControlEmploye {
 		iemployeservice.desaffecterEmployeDuDepartement(employeId, depId);
 	}
 
-	// http://localhost:8081/SpringMVC/servlet/ajouterContrat
-	@PostMapping("/ajouterContrat")
-	@ResponseBody
-	public int ajouterContrat(@RequestBody Contrat contrat) {
-		iemployeservice.ajouterContrat(contrat);
-		return contrat.getReference();
-	}
+
 	
 	// http://localhost:8081/SpringMVC/servlet/affecterContratAEmploye/6/1
    @PutMapping(value = "/affecterContratAEmploye/{idcontrat}/{idemp}") 
@@ -97,12 +91,6 @@ public class RestControlEmploye {
 		
 	}
     
- // URL : http://localhost:8081/SpringMVC/servlet/deleteContratById/2
-    @DeleteMapping("/deleteContratById/{idcontrat}") 
-	@ResponseBody
-	public void deleteContratById(@PathVariable("idcontrat")int contratId) {
-		iemployeservice.deleteContratById(contratId);
-	}
 
     
     // URL : http://localhost:8081/SpringMVC/servlet/getNombreEmployeJPQL
@@ -137,13 +125,7 @@ public class RestControlEmploye {
 		
 	}
 
-    // URL : http://localhost:8081/SpringMVC/servlet/deleteAllContratJPQL
-    @DeleteMapping("/deleteAllContratJPQL") 
-	@ResponseBody
-	public void deleteAllContratJPQL() {
-		iemployeservice.deleteAllContratJPQL();
-		
-	}
+
 
     // URL : http://localhost:8081/SpringMVC/servlet/getSalaireByEmployeIdJPQL/2
     @GetMapping(value = "getSalaireByEmployeIdJPQL/{idemp}")

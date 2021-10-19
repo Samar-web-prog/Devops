@@ -3,7 +3,7 @@ package tn.esprit.spring.services;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import tn.esprit.spring.repository.TimesheetRepository;
 @Service
 public class TimesheetServiceImpl implements ITimesheetService {
 	
-
+	private static final Logger l = Logger.getLogger(TimesheetServiceImpl.class);
 	@Autowired
 	MissionRepository missionRepository;
 	@Autowired
@@ -45,7 +45,10 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	}
 
 	public void ajouterTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin) {
+		l.info("Ajouter Timesheet () : ");
+		l.debug("lancement du constructeur.");
 		TimesheetPK timesheetPK = new TimesheetPK();
+		l.debug("Je viens de finir le lancement du constructeur.");
 		timesheetPK.setDateDebut(dateDebut);
 		timesheetPK.setDateFin(dateFin);
 		timesheetPK.setIdEmploye(employeId);
@@ -55,7 +58,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		timesheet.setTimesheetPK(timesheetPK);
 		timesheet.setValide(false); //par defaut non valide
 		timesheetRepository.save(timesheet);
-		
+		l.info(" fin Ajout Timesheet () : ");
 	}
 
 	
