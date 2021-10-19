@@ -184,10 +184,7 @@ public class ControllerEmployeImpl  {
 		employeService.desaffecterEmployeDuDepartement(employeId, depId);
 	}
 
-	public int ajouterContrat(Contrat contrat) {
-		employeService.ajouterContrat(contrat);
-		return contrat.getReference();
-	}
+
 
 	public void affecterContratAEmploye(int contratId, int employeId)
 	{
@@ -203,9 +200,7 @@ public class ControllerEmployeImpl  {
 		employeService.deleteEmployeById(employeId);
 
 	}
-	public void deleteContratById(int contratId) {
-		employeService.deleteContratById(contratId);
-	}
+
 
 	public int getNombreEmployeJPQL() {
 
@@ -226,10 +221,6 @@ public class ControllerEmployeImpl  {
 
 	}
 
-	public void deleteAllContratJPQL() {
-		employeService.deleteAllContratJPQL();
-
-	}
 
 	public float getSalaireByEmployeIdJPQL(int employeId) {
 		return employeService.getSalaireByEmployeIdJPQL(employeId);
@@ -240,10 +231,7 @@ public class ControllerEmployeImpl  {
 		return employeService.getSalaireMoyenByDepartementId(departementId);
 	}
 
-	public List<Timesheet> getTimesheetsByMissionAndDate(Employe employe, Mission mission, Date dateDebut,
-			Date dateFin) {
-		return employeService.getTimesheetsByMissionAndDate(employe, mission, dateDebut, dateFin);
-	}
+
 
 	public String getPrenom() {
 		return prenom;
