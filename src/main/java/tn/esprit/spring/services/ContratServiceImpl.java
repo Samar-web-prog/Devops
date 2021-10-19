@@ -20,11 +20,12 @@ public class ContratServiceImpl implements IContratService {
 	
 	public Integer ajouterContrat(Contrat contrat) {
 		
-		l.debug("In ajouterContrat()");
+		l.info("In ajouterContrat()");
 		try{
+			l.debug("je vais ajouter le contrat  ");
 			contratRepository.save(contrat);
-			l.info("contrat ajouté et portant la ref  = "+contrat.getReference());
-			l.debug("Out ajouterContrat()");
+			l.debug("contrat ajouté et portant la ref  = "+contrat.getReference());
+			l.info("Out ajouterContrat()");
 			return contrat.getReference();
 		} catch (Exception e) {
 			l.error("erreur dans la methode ajouterContrat() :"+e);
@@ -34,12 +35,13 @@ public class ContratServiceImpl implements IContratService {
 	}
 	
 	public int deleteContratById(int contratId) {
-		l.debug("In deleteContratById() ");
+		l.info("In deleteContratById() ");
 		try {
 			if (contratRepository.findById(contratId).orElse(null) != null) {
-				l.debug("Récupération de contrat par id avec succés ");
+				l.debug("contrat portant l'id :  "+contratId +" est recupére avec succés");
 			contratRepository.delete(contratRepository.findById(contratId).orElse(null));	
-			l.info("suppression contrat avec success ");
+			l.debug("suppression de contrat portant l'id: "+contratId+ " avec success ");
+			l.info("Out deleteContratById() ");
 			return 1;
 			} 
 		} catch (Exception e) {
@@ -61,8 +63,8 @@ public class ContratServiceImpl implements IContratService {
 		   l.info("In deleteAllContratJPQL() : ");
 			l.debug("acces a la base des données");
 			contratRepository.deleteAllContratJPQL();
-			l.info("Supprimé avec succes ");
-		
+			l.debug("Suppression des contrats avec succes ");
+			l.info("Out deleteAllContratJPQL() : ");
 	}
 
 
