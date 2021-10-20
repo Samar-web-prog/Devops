@@ -7,6 +7,6 @@ public interface IEntrepriseService {
 	
 	public Integer ajouterEntreprise(Entreprise entreprise);
 	List<String> getAllDepartementsNamesByEntreprise(int entrepriseId);
-	public void deleteEntrepriseById(int entrepriseId);
+	public Integer deleteEntrepriseById(int entrepriseId);
 	public Entreprise getEntrepriseById(int entrepriseId);
 }

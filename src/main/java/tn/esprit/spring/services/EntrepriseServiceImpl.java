@@ -20,6 +20,8 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
     EntrepriseRepository entrepriseRepoistory;
 	private static final Logger l = LogManager.getLogger(EntrepriseServiceImpl.class);
 	
+	// Méthode qui permet d'a
+	
 	@Transactional
 	public Integer ajouterEntreprise(Entreprise entreprise) {
 		
@@ -56,7 +58,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	}
 
 	@Transactional
-	public void deleteEntrepriseById(int entrepriseId) {
+	public Integer deleteEntrepriseById(int entrepriseId) {
 		try {
 			l.info("In methode deleteEntrepriseById() ");
 			if (entrepriseRepoistory.findById(entrepriseId).orElse(null) != null) {
@@ -64,8 +66,10 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 			} 
 			l.debug("Supprission de l'entreprise avec l'id"+entrepriseId);
 			l.info("Out deleteEntrepriseById()");
+			return 1;
 		} catch (Exception e) {
 			l.error("erreur methode deleteEntrepriseById() :" + e);
+			return 0;
 		}
 	}
 
