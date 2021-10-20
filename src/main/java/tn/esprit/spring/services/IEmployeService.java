@@ -21,7 +21,7 @@ public interface IEmployeService {
 	public void affecterContratAEmploye(int contratId, int employeId);
 	public String getEmployePrenomById(int employeId);
 	public int deleteEmployeById(int employeId);
-	public int getNombreEmployeJPQL();
+	public Integer getNombreEmployeJPQL();
 	public List<String> getAllEmployeNamesJPQL();
 	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise);
 	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId);

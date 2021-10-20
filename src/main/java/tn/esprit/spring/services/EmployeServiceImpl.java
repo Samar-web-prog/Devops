@@ -33,23 +33,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	TimesheetRepository timesheetRepository;
 
 	private static final Logger l = LogManager.getLogger(EmployeServiceImpl.class);
-	@Override
-	public Employe authenticate(String login, String password) {
-			
-		try {
-			l.info("In authenticate()");
-			l.debug("we will do the authentification");
-			Employe authenticate=employeRepository.getEmployeByEmailAndPassword(login, password);
-			l.debug("authenticate done");
-			l.info("Out authenticate()");
-			return authenticate;
-			
-		}
-		catch (Exception e) {
-		       l.error("erreur in  authenticate() :" +e);	
-		       return null;       
-				}
-	}
+
 	
 	
 
@@ -72,35 +56,46 @@ public class EmployeServiceImpl implements IEmployeService {
 
 
 	
-	
-	
-	public void mettreAjourEmailByEmployeId(String email, int employeId) {
-		
+	@Override
+	public Employe authenticate(String login, String password) {
+			
 		try {
-			l.info("In mettreAjourEmailByEmployeId()");
+			l.info("In authenticate()");
+			l.debug("we will do the authentification");
+			Employe authenticate=employeRepository.getEmployeByEmailAndPassword(login, password);
+			l.debug("authenticate done");
+			l.info("Out authenticate()");
+			return authenticate;
 			
-			
-			l.debug("je vais recuperer l'id de l'employee");
-		Employe employe =employeRepository.findById(employeId).orElse(null);	
-		
-		
-		if(employe!=null){
-			
-			l.debug("je vais modifier l'email "+ email +"de l'employe portant l'id"+employe.getId());
-		employe.setEmail(email);
-		employeRepository.save(employe);	
-		l.debug("je viens de modifier l'email de l'employe "+employe.getId());
-		l.info("Out mettreAjourEmailByEmployeId avec success ");
-		
-		}
 		}
 		catch (Exception e) {
-			l.error("erreur in methode mettreAjourEmailByEmployeId(): " +e);
+		       l.error("erreur in  authenticate() :" +e);	
+		       return null;       
+				}
+	}
+	
+
+
+	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {
+		
+		try
+		{
+			l.info("In mettreAjourEmailByEmployeIdJPQL ");			
+			l.debug("je vais mettre a jour email by employe");
+			employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
+			l.debug("l'email est mis à ajour");
+			l.info("Out mettreAjourEmailByEmployeIdJPQL with success");
+			
+			
 		}
+		catch (Exception e) {
+			l.error("erreur in methode mettreAjourEmailByEmployeIdJPQL : " +e);
+			
+		}
+	
+		
 
 	}
-
-	
 	
 	
 	@Transactional	
@@ -143,6 +138,32 @@ catch (Exception e) {
 	
 	
 	
+	
+	public void mettreAjourEmailByEmployeId(String email, int employeId) {
+		
+		try {
+			l.info("In mettreAjourEmailByEmployeId()");
+			
+			
+			l.debug("je vais recuperer l'id de l'employee");
+		Employe employe =employeRepository.findById(employeId).orElse(null);	
+		
+		
+		if(employe!=null){
+			
+			l.debug("je vais modifier l'email "+ email +"de l'employe portant l'id"+employe.getId());
+		employe.setEmail(email);
+		employeRepository.save(employe);	
+		l.debug("je viens de modifier l'email de l'employe "+employe.getId());
+		l.info("Out mettreAjourEmailByEmployeId avec success ");
+		
+		}
+		}
+		catch (Exception e) {
+			l.error("erreur in methode mettreAjourEmailByEmployeId(): " +e);
+		}
+
+	}
 	@Transactional
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
 	{
@@ -248,7 +269,7 @@ if(dep!=null){
 		employeRepository.delete(employe);
 		l.debug("deleteEmployeById ");
 		l.info("Out deleteEmployeById with success");
-		return -1;
+		return 1;
 		}
 		catch (Exception e) {
 			l.error("erreur methode deleteEmpolyeById() : " +e);
@@ -260,7 +281,7 @@ if(dep!=null){
 
 	
 	
-	public int getNombreEmployeJPQL() {
+	public Integer getNombreEmployeJPQL() {
 		
 		try {
 			l.info("In deleteEmployeById ");
@@ -329,26 +350,7 @@ if(dep!=null){
 	
 	
 	
-	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {
-		
-		try
-		{
-			l.info("In mettreAjourEmailByEmployeIdJPQL ");			
-			l.debug("je vais mettre a jour email by employe");
-			employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
-			l.debug("l'email est mis à ajour");
-			l.info("Out mettreAjourEmailByEmployeIdJPQL with success");
-			
-			
-		}
-		catch (Exception e) {
-			l.error("erreur in methode mettreAjourEmailByEmployeIdJPQL : " +e);
-			
-		}
-	
-		
 
-	}
 
 	public float getSalaireByEmployeIdJPQL(int employeId) {
 		
