@@ -20,6 +20,7 @@ public class DepartementServiceImpl implements IDepartementService {
     EntrepriseRepository entrepriseRepoistory;
 	private static final Logger l = LogManager.getLogger(DepartementServiceImpl.class);
 	
+	//Récupération de la liste des département
     public List<Departement> getAllDepartements() {
     	try{
 			l.info("In getAllDepartements()");
@@ -31,12 +32,25 @@ public class DepartementServiceImpl implements IDepartementService {
     	} catch (Exception e) {
 			l.error("erreur dans la methode getAllDepartements() :"+e);
 			return null;
-		}
-			
+		}		
 	}
+    //Récupération d'un département par son id
+	public Departement getDepartmentById(int departmentId) {
+		try {
+				l.info(" In getDepartementById() : ");
+				
+				Departement dep =  deptRepoistory.findById(departmentId).orElse(null);
+				l.info(" Out of getDepartementById(). ");
+				return dep ; 
+		} catch (Exception e) {
+			l.error("get departement operation failed");
+			return null;
+		}	
+
+}
     	
     	
-    	
+    //Ajout d'une département	
 	public Integer ajouterDepartement(Departement dep) {
 		try{
 			l.info("In ajouterDepartement()");
@@ -50,7 +64,8 @@ public class DepartementServiceImpl implements IDepartementService {
 		}
 		
 	}
-	public void affecterDepartementAEntreprise(int depId, int entrepriseId) {
+	//Affectation d'une département à une entreprise
+	public Departement affecterDepartementAEntreprise(int depId, int entrepriseId) {
 				try {
 					l.info("In affecterDepartementAEntreprise()");
 					l.debug("je vais récupérer l'entreprise par son id");
@@ -64,29 +79,62 @@ public class DepartementServiceImpl implements IDepartementService {
 					deptRepoistory.save(depManagedEntity);	
 					l.debug("entreprise est affectée a l'entreprise avec succées,id de département est   = "+depManagedEntity.getId());
 					l.info("Out ajouterDepartement()");
+					return depManagedEntity;
 
 				}
 				catch (Exception e) {
 					l.error("erreur dans la methode affecterDepartementAEntreprise() :"+e);
+				    return null;
 				}
 		      
 	}
+	//Suppression d'un département par son id
 	@Transactional
-	public void deleteDepartementById(int depId) {
+	public Integer deleteDepartementById(int depId) {
 		try {
 			l.info("In deleteDepartementById()");
 			l.debug("je vais supprimer le département par son id:"+depId);
 		    deptRepoistory.delete(deptRepoistory.findById(depId).get());
 			l.debug("Département supprimé avec succés");
 			l.info("Out deleteDepartementById()");
+			return 1;
 
 		}
 		catch (Exception e) {
 			l.error("erreur dans la methode deleteDepartementById() :"+e);
+			return 0;
 		}
 
 		 
 	}
+	//Désaffectation d'une département à une entreprise
+	@Transactional
+	public Departement desaffecterDepartementDuEntreprise (int depId , int entId){
+		try {
+			l.info("In desaffecterDepartementDuEntreprise :  ");
+			Entreprise ent = entrepriseRepoistory.findById(entId).orElse(null);
+			l.info("Entreprise récupérer avec succés");
+			Departement depManagedEntity = deptRepoistory.findById(depId).orElse(null);
+			l.info("depManagedEntity récupérer avec succés");
+			if (depManagedEntity != null){
+		  if (depManagedEntity.getEntreprise() == ent )
+		    {
+			l.debug("Désaffectation d'un département d'un entreprise ");
+			depManagedEntity.setEntreprise(null);
+			l.info("Département désaffecté avec succés ");
+		    }
 	
+		    l.info("Out of desaffecterDepartementDuEntreprise  ");
+		    return depManagedEntity ;
+			}
+			return null; 
+	
+		}catch (Exception e) {
+			l.error("erreur In affecterDepartementAEntreprise() " + e);
+			return null ; 
+
+		}
+
+		}
 
 }
