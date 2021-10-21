@@ -12,10 +12,14 @@ public interface IDepartementService {
 	
 	public Integer ajouterDepartement(Departement dep);
 
-	public void affecterDepartementAEntreprise(int depId, int entrepriseId);
-	public void deleteDepartementById(int depId);
-
+	public Departement affecterDepartementAEntreprise(int depId, int entrepriseId);
 	
+	public Integer deleteDepartementById(int depId);
+
+	public Departement getDepartmentById(int departmentId) ;
+
+	public Departement desaffecterDepartementDuEntreprise (int depId , int entId);
+
 	
 
 	

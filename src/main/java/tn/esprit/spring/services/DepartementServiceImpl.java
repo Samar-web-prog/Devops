@@ -23,6 +23,7 @@ public class DepartementServiceImpl implements IDepartementService {
     EntrepriseRepository entrepriseRepoistory;
 	private static final Logger l = LogManager.getLogger(DepartementServiceImpl.class);
 	
+	//Récupération de la liste des département
     public List<Departement> getAllDepartements() {
 		ArrayList<Departement> list=new ArrayList<>();
 
@@ -35,13 +36,31 @@ public class DepartementServiceImpl implements IDepartementService {
 			return list;
     	} catch (Exception e) {
 			l.error("erreur dans la methode getAllDepartements() :"+e);
+<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 			list.clear();
 			return list;
+=======
+			return null;
+>>>>>>> junit
 		}		
 	}
+    //Récupération d'un département par son id
+	public Departement getDepartmentById(int departmentId) {
+		try {
+				l.info(" In getDepartementById() : ");
+				
+				Departement dep =  deptRepoistory.findById(departmentId).orElse(null);
+				l.info(" Out of getDepartementById(). ");
+				return dep ; 
+		} catch (Exception e) {
+			l.error("get departement operation failed");
+			return null;
+		}	
+
+}
     	
     	
-    	
+    //Ajout d'une département	
 	public Integer ajouterDepartement(Departement dep) {
 		try{
 			l.info("In ajouterDepartement()");
@@ -57,9 +76,13 @@ public class DepartementServiceImpl implements IDepartementService {
 	}
 	//Affectation d'une département à une entreprise
 	public Departement affecterDepartementAEntreprise(int depId, int entrepriseId) {
+<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 		         try {
 
 
+=======
+				try {
+>>>>>>> junit
 					l.info("In affecterDepartementAEntreprise()");
 					l.debug("Je vais récupérer le département par son id");
 					Optional<Departement> departementManaged=deptRepoistory.findById(depId);
@@ -78,18 +101,27 @@ public class DepartementServiceImpl implements IDepartementService {
 					l.debug("entreprise est affectée a l'entreprise avec succées,id de département est   = "+depManagedEntity.getId());
 					l.info("Out ajouterDepartement()");
 					return depManagedEntity;
+<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 						}
 				}
 				catch (Exception e) {
 					l.error("erreur dans la methode affecterDepartementAEntreprise() :"+e);
 
+=======
+
+				}
+				catch (Exception e) {
+					l.error("erreur dans la methode affecterDepartementAEntreprise() :"+e);
+				    return null;
+>>>>>>> junit
 				}
 				return null;
 				
 		      
 	}
+	//Suppression d'un département par son id
 	@Transactional
-	public void deleteDepartementById(int depId) {
+	public Integer deleteDepartementById(int depId) {
 		try {
 			l.info("In deleteDepartementById()");
 			Optional<Departement> departement=deptRepoistory.findById(depId);
@@ -98,16 +130,50 @@ public class DepartementServiceImpl implements IDepartementService {
 		    deptRepoistory.delete(departement.get());
 			l.debug("Département supprimé avec succés");
 			l.info("Out deleteDepartementById()");
+<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 			}
 			return 1;
 			
+=======
+			return 1;
+
+>>>>>>> junit
 		}
 		catch (Exception e) {
 			l.error("erreur dans la methode deleteDepartementById() :"+e);
+			return 0;
 		}
 
 		 
 	}
+	//Désaffectation d'une département à une entreprise
+	@Transactional
+	public Departement desaffecterDepartementDuEntreprise (int depId , int entId){
+		try {
+			l.info("In desaffecterDepartementDuEntreprise :  ");
+			Entreprise ent = entrepriseRepoistory.findById(entId).orElse(null);
+			l.info("Entreprise récupérer avec succés");
+			Departement depManagedEntity = deptRepoistory.findById(depId).orElse(null);
+			l.info("depManagedEntity récupérer avec succés");
+			if (depManagedEntity != null){
+		  if (depManagedEntity.getEntreprise() == ent )
+		    {
+			l.debug("Désaffectation d'un département d'un entreprise ");
+			depManagedEntity.setEntreprise(null);
+			l.info("Département désaffecté avec succés ");
+		    }
 	
+		    l.info("Out of desaffecterDepartementDuEntreprise  ");
+		    return depManagedEntity ;
+			}
+			return null; 
+	
+		}catch (Exception e) {
+			l.error("erreur In affecterDepartementAEntreprise() " + e);
+			return null ; 
+
+		}
+
+		}
 
 }

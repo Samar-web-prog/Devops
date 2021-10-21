@@ -39,5 +39,6 @@ public class RestControlDepartement {
 	public void deleteDepartementById(@PathVariable("iddept") int depId) {
     	idepartementservice.deleteDepartementById(depId);
 	}
+    
 
 }
