@@ -29,8 +29,7 @@ import tn.esprit.spring.services.IEmployeService;
 public class ControllerEmployeImpl  {
 
 	@Autowired
-	IEmployeService employeService;
-
+IEmployeService employeService;
 	private String login; 
 	private String password; 
 	private Boolean loggedIn;
