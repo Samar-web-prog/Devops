@@ -1,6 +1,7 @@
 package tn.esprit.spring.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -37,9 +38,11 @@ public class ContratServiceImpl implements IContratService {
 	public int deleteContratById(int contratId) {
 		l.info("In deleteContratById() ");
 		try {
-			if (contratRepository.findById(contratId).orElse(null) != null) {
+			Optional<Contrat> contrat=contratRepository.findById(contratId);
+			if (contrat.isPresent()) {
 				l.debug("contrat portant l'id :  "+contratId +" est recupére avec succés");
-			contratRepository.delete(contratRepository.findById(contratId).orElse(null));	
+			
+				contratRepository.delete(contrat.get());	
 			l.debug("suppression de contrat portant l'id: "+contratId+ " avec success ");
 			l.info("Out deleteContratById() ");
 			return 1;

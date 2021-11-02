@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.services.IContratService;
-import tn.esprit.spring.services.IEmployeService;
 
 @Controller
 public class ControllerContratImpl {

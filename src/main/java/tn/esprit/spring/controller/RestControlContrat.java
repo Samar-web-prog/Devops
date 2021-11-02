@@ -1,5 +1,6 @@
 package tn.esprit.spring.controller;
 
+import org.primefaces.push.annotation.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class RestControlContrat {
 	@PostMapping("/ajouterContrat")
 	@ResponseBody
 	public int ajouterContrat(@RequestBody Contrat contrat) {
+		
 		icontratservice.ajouterContrat(contrat);
 		return contrat.getReference();
 	}
