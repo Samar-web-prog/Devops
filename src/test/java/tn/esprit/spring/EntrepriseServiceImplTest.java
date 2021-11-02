@@ -27,14 +27,14 @@ public class EntrepriseServiceImplTest {
 	@Autowired
     EntrepriseRepository entrepriseRepoistory;
 	
-	Integer idE=4;
+	Integer idE=19;
 	
 	// Tester la méthode qui permet d'ajouter une entreprise
 	
 	@Test
 	public void testAjouterEntreprise()  {  
 		l.info("In methode testAjouterEntreprise()");
-		 idE=ientrepriseservice.ajouterEntreprise(new Entreprise("test_nom_entreprise","test_raison_sociale "));
+		 idE=ientrepriseservice.ajouterEntreprise(new Entreprise("sabrine","sab "));
 		assertNotNull(idE);
 		l.info("Out methode testAjouterEntreprise()");
 	}

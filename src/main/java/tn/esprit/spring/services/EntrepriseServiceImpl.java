@@ -2,6 +2,7 @@ package tn.esprit.spring.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,19 +41,22 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	
 	@Transactional
 	public List<String> getAllDepartementsNamesByEntreprise(int entrepriseId) {
+		List<String> depNames = new ArrayList<>();
 		try{
 			l.info("In methode getAllDepartementsNamesByEntreprise() : ");
-			Entreprise entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId).get();
-			List<String> depNames = new ArrayList<>();
-			for(Departement dep : entrepriseManagedEntity.getDepartements()){
-				depNames.add(dep.getName());
+			Optional<Entreprise> entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId);
+			if(entrepriseManagedEntity.isPresent()) {
+				for(Departement dep : entrepriseManagedEntity.get().getDepartements()){
+					depNames.add(dep.getName());
+				}
 			}
 			l.debug("Récupération des departements");
 			l.info("Out methode getAllDepartementsNamesByEntreprise() ");
 			return depNames;
 		} catch (Exception e) {
 			l.error("erreur dans la methode getAllDepartementsNamesByEntreprise() :"+e);
-			return null;
+			depNames.clear();
+			return depNames;
 		}
 		
 	}
@@ -61,8 +65,9 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	public Integer deleteEntrepriseById(int entrepriseId) {
 		try {
 			l.info("In methode deleteEntrepriseById() ");
-			if (entrepriseRepoistory.findById(entrepriseId).orElse(null) != null) {
-				entrepriseRepoistory.delete(entrepriseRepoistory.findById(entrepriseId).orElse(null));	
+			Optional<Entreprise> entreprise=entrepriseRepoistory.findById(entrepriseId);
+			if (entreprise.isPresent()) {
+				entrepriseRepoistory.delete(entreprise.get());	
 			} 
 			l.debug("Supprission de l'entreprise avec l'id"+entrepriseId);
 			l.info("Out deleteEntrepriseById()");
@@ -72,15 +77,20 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 			return 0;
 		}
 	}
+	
 
 	@Transactional
 	public Entreprise getEntrepriseById(int entrepriseId) {
+		Entreprise en = null;
 		try {
 			l.info("In methode getEntrepriseById() : ");
-			Entreprise entreprise = entrepriseRepoistory.findById(entrepriseId).get();
+			Optional<Entreprise> entreprise = entrepriseRepoistory.findById(entrepriseId);
+			if (entreprise.isPresent()) {
+				en=entreprise.get();
+			}
 			l.debug("Récupération de l'entreprise par id");
 			l.info("Out methode getEntrepriseById() ");
-			return entreprise;
+			return en;
 		} catch (Exception e) {
 			l.error("erreur methode deleteEntrepriseById() :" + e);
 			return null;
