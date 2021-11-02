@@ -9,9 +9,9 @@ public interface IContratService {
 	
 	
 	public List<Contrat> getAllContrats();
-
-
-	
+	public Integer ajouterContrat(Contrat contrat);
+	public int deleteContratById(int contratId);
+	public void deleteAllContratJPQL();
 	
 	
 
