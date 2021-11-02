@@ -41,7 +41,7 @@ IEmployeService employeService;
 
 	private Integer employeIdToBeUpdated; // getter et setter
 
-
+    public static final String url="/login.xhtml?faces-redirect=true";
 	public String doLogin() {
 
 		String navigateTo = "null";
@@ -65,13 +65,13 @@ IEmployeService employeService;
 	{
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	
-	return "/login.xhtml?faces-redirect=true";
+	return url;
 	}
 
 
 	public String addEmploye() {
 
-		if (authenticatedUser==null || !loggedIn) return "/login.xhtml?faces-redirect=true";
+		if (authenticatedUser==null || !loggedIn) return url;
 
 		employeService.addOrUpdateEmploye(new Employe(nom, prenom, email, password, actif, role)); 
 		return "null"; 
@@ -79,7 +79,7 @@ IEmployeService employeService;
 
 	public String removeEmploye(int employeId) {
 		String navigateTo = "null";
-		if (authenticatedUser==null || !loggedIn) return "/login.xhtml?faces-redirect=true";
+		if (authenticatedUser==null || !loggedIn) return url;
 
 		employeService.deleteEmployeById(employeId);
 		return navigateTo; 
@@ -88,7 +88,7 @@ IEmployeService employeService;
 	public String displayEmploye(Employe empl) 
 	{
 		String navigateTo = "null";
-		if (authenticatedUser==null || !loggedIn) return "/login.xhtml?faces-redirect=true";
+		if (authenticatedUser==null || !loggedIn) return url;
 
 
 		this.setPrenom(empl.getPrenom());
@@ -107,7 +107,7 @@ IEmployeService employeService;
 	{ 
 		String navigateTo = "null";
 		
-		if (authenticatedUser==null || !loggedIn) return "/login.xhtml?faces-redirect=true";
+		if (authenticatedUser==null || !loggedIn) return url;
 
 		employeService.addOrUpdateEmploye(new Employe(employeIdToBeUpdated, nom, prenom, email, password, actif, role)); 
 
