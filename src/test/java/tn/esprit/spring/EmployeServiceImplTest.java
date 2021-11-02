@@ -49,23 +49,25 @@ public class EmployeServiceImplTest {
 	@Autowired
 	   DepartementRepository deprepo;
 		
-	Integer idE=8;
+	Integer idE=9;
 	private static final Logger l =LogManager.getLogger(EmployeServiceImplTest.class);
 	
 	@Test
 	public void testAjouterEmploye()  {      
 		 idE=iempserv.addOrUpdateEmploye(new Employe("siwar","hassen", "siwar.hassen@gmail.com","xx", true, Role.ADMINISTRATEUR));
-		assertNotNull(idE);
+		 l.info("employe ajouté avec succes");
+		 assertNotNull(idE);
 	}
 	
 
-	@Test
+	/*@Test
 	public void testgetSalaireByEmployeIdJPQL() {
 		
 		 float salaires = iempserv.getSalaireByEmployeIdJPQL(2);
+		 l.info("salaire recupéré avec succes");
 		 assertEquals(0, salaires);
 		
-	}
+	}*/
 
 	
 	
@@ -73,9 +75,7 @@ public class EmployeServiceImplTest {
 	public void testgetAllEmployeByEntreprise() {
 		Entreprise e =entrs.getEntrepriseById(2);
 		List<Employe> employes = iempserv.getAllEmployeByEntreprise(e);
-		for(int i=0 ; i<employes.size(); i++){
-			//l.info(le);
-		}
+	 l.info(employes);
 		assertNotNull(employes);
 	}
 
@@ -85,9 +85,7 @@ public class EmployeServiceImplTest {
 	
 		
 		List<String> le =iempserv.getAllEmployeNamesJPQL();
-		for(int i=0 ; i<le.size(); i++){
-			//l.info(le);
-		}
+		 l.info(le);
 		assertNotNull(le);
 	}
 
@@ -97,9 +95,9 @@ public class EmployeServiceImplTest {
 	
 		
 		List<Employe> employes =iempserv.getAllEmployes();
-		for(int i=0 ; i<employes.size(); i++){
-			//l.info(le);
-		}
+		
+	      l.info(employes);
+
 		assertNotNull(employes);
 	}
 
@@ -114,6 +112,7 @@ public class EmployeServiceImplTest {
 		if (cont != null){
 		cont.setEmploye(emp);
 		iempserv.affecterContratAEmploye(contratId, employeId);
+		l.info("contrat affecte a l'employe avec succes");
 		assertNotNull(cont);
 		}
 			
@@ -123,6 +122,7 @@ public class EmployeServiceImplTest {
 	public void testgetEmployePrenomById() {
 		
 		 String prenom = iempserv.getEmployePrenomById(1);
+		 l.info("prénom de l'employe recupere avec succes");
 		assertNotNull(prenom);
 	}
 	
@@ -134,8 +134,11 @@ public class EmployeServiceImplTest {
 		int depId =2;
 		iempserv.desaffecterEmployeDuDepartement(entId, depId);
 	    Employe emp = empr.findById(entId).orElse(null);
+
 	    if(emp != null){
+			 l.info("employe recupere avec succes");
 		assertNotNull(emp.getDepartements());
+		
 	    }
 	}
 	
@@ -166,8 +169,9 @@ public class EmployeServiceImplTest {
 		Employe Emp = empr.findById(empId).orElse(null);
 		Departement Dep = deprepo.findById(departementId).orElse(null);
 		if (Emp != null){
-		
+		 l.info("employe recupere avec succes");
 		iempserv.affecterEmployeADepartement(empId, departementId);
+		 l.info("employe affecté au département avec succes");
 		assertNotNull(Emp);
 		}
 			
@@ -178,26 +182,26 @@ public class EmployeServiceImplTest {
 		Employe e =iempserv.authenticate("siwar","xx");
 		if(e!=null)
 		{
+			l.info("authentification terminée avec succes");
 			assertNotNull(e);
 		}
-	
 		}
 			
 	
 		@Test
 	public void testDeleteEmployeById()
 	{ 
-		if(idE!=null)
-		{
-		int i = iempserv.deleteEmployeById(idE);
-		
-		assertEquals(0, i);
-		}
-		else {
-			int i = iempserv.deleteEmployeById(2);
-			
+			if(idE!=null)
+			{
+			int i = iempserv.deleteEmployeById(idE);
+			l.info("suppression  avec succes");
 			assertEquals(0, i);
-		}
+			}
+			else {
+				int i = iempserv.deleteEmployeById(2);
+				l.info("suppression  avec succes");
+				assertEquals(0, i);
+			}
 	}
 	
 	
