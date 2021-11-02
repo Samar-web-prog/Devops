@@ -1,8 +1,8 @@
 package tn.esprit.spring.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,6 @@ import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
-import tn.esprit.spring.entities.Mission;
-import tn.esprit.spring.entities.Timesheet;
 import tn.esprit.spring.repository.ContratRepository;
 import tn.esprit.spring.repository.DepartementRepository;
 import tn.esprit.spring.repository.EmployeRepository;
@@ -105,28 +103,31 @@ try {
 	l.info("In affecterEmployeADepartement()");
 	
 	l.debug("je vais recuperer le departement");
-	Departement depManagedEntity = deptRepoistory.findById(depId).orElse(null);
+	Optional<Departement> depManagedEntity = deptRepoistory.findById(depId);
 	
 	l.debug("je vais recuperer l'employe");
 	Employe employeManagedEntity = employeRepository.findById(employeId).orElse(null);
-	 if(depManagedEntity!=null)
-		if( depManagedEntity.getEmployes() == null){
+	 if(depManagedEntity.isPresent())
+	 {
+		 
+	 
+		if( depManagedEntity.get().getEmployes() == null){
 
 			List<Employe> employes = new ArrayList<>();
 			l.debug("je vais remplir la liste des employes");
 			employes.add(employeManagedEntity);
 			l.debug("je vais modifier la liste des employes dans le departement");
-			depManagedEntity.setEmployes(employes);
+			depManagedEntity.get().setEmployes(employes);
 		}else{
 			l.debug("je vais affecter les employes au departement");
-			depManagedEntity.getEmployes().add(employeManagedEntity);
+			depManagedEntity.get().getEmployes().add(employeManagedEntity);
 		}
 
 
-		deptRepoistory.save(depManagedEntity); 
+		deptRepoistory.save(depManagedEntity.get()); 
 		l.debug("je viens de finir effecterEmployeAdepartement ");
 		l.info("Out effecterEmployeAdepartement()");
-		}
+		}}
 catch (Exception e) {
 	l.error("erreur in methode affecterEmployeADepartement() : " +e);
 	
@@ -200,19 +201,25 @@ if(dep!=null){
 		try {	
 			l.info("In affecterContratAEmploye() ");
 			l.debug("je vais recuperer le contrat by id");
-		Contrat contratManagedEntity = contratRepoistory.findById(contratId).get();
+		Optional<Contrat> contratManagedEntity = contratRepoistory.findById(contratId);
 		l.debug("recuperation de contrat"+contratManagedEntity);
 		
 		
 		l.debug("je vais recuperer l'employe by id");
-		Employe employeManagedEntity = employeRepository.findById(employeId).get();
-	
-		l.debug("je vais affecter le contrat à un employe");
-		contratManagedEntity.setEmploye(employeManagedEntity);
-		contratRepoistory.save(contratManagedEntity);
-		l.debug(" je viens de finir  affecterContratAEmploye ");
-		l.info(" out affecterContratAEmploye() ");
+		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
+		if (employeManagedEntity.isPresent()) {
+			l.debug("je vais affecter le contrat à un employe");
+			if(contratManagedEntity.isPresent())
+			{
+				contratManagedEntity.get().setEmploye(employeManagedEntity.get());
+				contratRepoistory.save(contratManagedEntity.get());
+				l.debug(" je viens de finir  affecterContratAEmploye ");
+				l.info(" out affecterContratAEmploye() ");
+			}
+			
+			}
 		}
+		
 		
 		catch (Exception e) {
 			l.error("erreur in methode affecterContratAEmploye() : " +e);
@@ -227,15 +234,20 @@ if(dep!=null){
 	public String getEmployePrenomById(int employeId) {
 	
 		try {
+			String prenom=null;
 			l.info(" In getEmployePrenomById() ");
 			
-			l.debug("je vais recuperer l'employe by id ");
-		Employe employeManagedEntity = employeRepository.findById(employeId).orElse(null);
-		
-		l.debug("recuperation getEmployeById "+employeManagedEntity!=null ?employeManagedEntity.getPrenom():null);
-		l.info(" out getEmployePrenomById() ");
-		return employeManagedEntity!=null ?employeManagedEntity.getPrenom():null;
+			l.debug("je vais recuperer le prenom de l'employe by id ");
+		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
+		if(employeManagedEntity.isPresent())
+		{
+			l.debug("je viens de recuperer getEmployePrenomById ");
+			l.info(" out getEmployePrenomById() ");
+			prenom=employeManagedEntity.get().getPrenom();
+			
+		}
 	
+		return prenom;
 		}
 		catch (Exception e) {
 			l.error("erreur in methode getEmployeeById() : " +e);
@@ -256,21 +268,26 @@ if(dep!=null){
 			l.info("In deleteEmployeById ");
 			
 			l.debug("je vais recuperer l'employe selon l'id ");
-		Employe employe = employeRepository.findById(employeId).orElse(null);
-
-		
-	if(employe!=null && employe.getDepartements()!=null)
-		for(Departement dep : employe.getDepartements()){
-			l.debug("je vais desaffecter l'employe d'un departement ");
-			dep.getEmployes().remove(employe);
+		Optional<Employe> employe = employeRepository.findById(employeId);
+if(employe.isPresent())
+{
+	for(Departement dep : employe.get().getDepartements()){
+		l.debug("je vais desaffecter l'employe d'un departement ");
+		dep.getEmployes().remove(employe.get());
+	
+	}
+l.debug("je vais supprimer l'employe par son id"+employeId);
+	employeRepository.delete(employe.get());
+	l.debug("je viens de faire deleteEmployeById ");
+	l.info("Out deleteEmployeById with success");
+	return 1;
+}
+		return 0;
+	
 		
 		}
-	l.debug("je vais supprimer l'employe par son id"+employeId);
-		employeRepository.delete(employe);
-		l.debug("deleteEmployeById ");
-		l.info("Out deleteEmployeById with success");
-		return 1;
-		}
+		
+		
 		catch (Exception e) {
 			l.error("erreur methode deleteEmpolyeById() : " +e);
 			return 0;
@@ -307,42 +324,32 @@ if(dep!=null){
 
 	public List<String> getAllEmployeNamesJPQL() {
 		
-		try
-		{
-			l.info("In getAllEmployeNamesJPQL ");			
-			l.debug("je vais recuperer les employes By names");
-			
-			List<String> employeesByNames=employeRepository.employeNames();
-			l.debug("la liste des employes by names"+employeesByNames);
-			l.info("Out getAllEmployeNamesJPQL with success");
-			return employeesByNames;
-		}
-		catch (Exception e) {
-			l.error("erreur in methode getAllEmployeNamesJPQL : " +e);
-			return null;
-		}
-		
-		
-		
+		l.info("In getAllEmployeNamesJPQL");
+		l.debug("je vais récupérer names of employes");
+		 List<String> a = employeRepository.employeNames();
+		l.debug("je viens récupérer les noms des tous les employes");
+		l.info("out getAllEmployeNamesJPQL");
+		return a;
 
 	}
 
 	
 	
 	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise) {
-		
+		List<Employe> allemployees=new ArrayList<>();
 		try
 		{
-			l.info("In getAllEmployeByEntreprise ");			
+			l.info("In getAllEmpaffeloyeByEntreprise ");			
 			l.debug("je vais recuperer des employes By entreprise");
-			List<Employe> allemployees=employeRepository.getAllEmployeByEntreprisec(entreprise);
+			allemployees=employeRepository.getAllEmployeByEntreprisec(entreprise);
 			l.debug("la liste des employeesByentreprise"+allemployees);
 			l.info("Out getAllEmployeByEntreprise with success");
 			return allemployees;
 		}
 		catch (Exception e) {
+			allemployees.clear();
 			l.error("erreur in methode getAllEmployeByEntreprise : " +e);
-			return null;
+			return allemployees;
 		}
 		
 	}
@@ -397,20 +404,21 @@ if(dep!=null){
 
 
 	public List<Employe> getAllEmployes() {
-		
+		List<Employe> listemployes=new ArrayList<>();
 		try
 		{
 			l.info("methode getAllEmployes ");
 			l.debug("je vais recuperer la liste de tous les employees");
-			List<Employe> listemployes=(List<Employe>) employeRepository.findAll();
+		 listemployes=(List<Employe>) employeRepository.findAll();
 			l.debug("la liste des employees est"+listemployes);
 			l.info("Out getAllEmployes with success");
 			
 			return listemployes;
 		}
 		catch (Exception e) {
+			listemployes.clear();
 			l.error("erreur In getAllEmployes : " +e);
-			return null;
+			return listemployes;
 		}
 		
 		

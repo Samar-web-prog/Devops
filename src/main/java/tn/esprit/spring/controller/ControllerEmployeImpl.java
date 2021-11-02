@@ -1,24 +1,19 @@
 package tn.esprit.spring.controller;
 
-import java.util.Date;
+
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.validation.constraints.Pattern;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
-import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
-import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
-import tn.esprit.spring.entities.Timesheet;
 import tn.esprit.spring.services.IEmployeService;
 
 

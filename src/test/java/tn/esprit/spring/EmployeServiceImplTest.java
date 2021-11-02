@@ -2,7 +2,7 @@ package tn.esprit.spring;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Assert;
 
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
@@ -62,7 +63,8 @@ public class EmployeServiceImplTest {
 	public void testgetSalaireByEmployeIdJPQL() {
 		
 		 float salaires = iempserv.getSalaireByEmployeIdJPQL(2);
-		assertNotNull(salaires);
+		 assertEquals(0, salaires);
+		
 	}
 
 	
