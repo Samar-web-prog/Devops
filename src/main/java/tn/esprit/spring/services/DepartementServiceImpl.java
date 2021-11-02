@@ -30,7 +30,7 @@ public class DepartementServiceImpl implements IDepartementService {
     	try{
 			l.info("In getAllDepartements()");
 			l.debug("Je vais récupérer la liste département");
-			list.add( (Departement) deptRepoistory.findAll());
+			list=  (ArrayList<Departement>) deptRepoistory.findAll();
 			l.debug("La liste de département est récupéré avec succés");
 			l.info("Out getAllDepartements()");		
 			return list;
