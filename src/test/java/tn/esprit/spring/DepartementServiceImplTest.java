@@ -46,15 +46,11 @@ public class DepartementServiceImplTest {
 	@Test
 	public void testAjouterDepartement(){
 		l.info("Je vais tester l'ajout d'une département");
-		Departement d = new Departement ("IT Dep");
-		int dAdded = DepService.ajouterDepartement(d);
-<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
-	 assertEquals(0,dAdded);
-
-=======
+		Integer dAdded=DepService.ajouterDepartement(new Departement ("IT Dep"));
 		assertNotNull(dAdded);
->>>>>>> junit
+		
 		l.info("departement ajouté avec succés");
+		
 	}
 	//Tester la méthode suppression d'une département
 	@Test

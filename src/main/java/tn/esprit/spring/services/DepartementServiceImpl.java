@@ -36,12 +36,8 @@ public class DepartementServiceImpl implements IDepartementService {
 			return list;
     	} catch (Exception e) {
 			l.error("erreur dans la methode getAllDepartements() :"+e);
-<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 			list.clear();
 			return list;
-=======
-			return null;
->>>>>>> junit
 		}		
 	}
     //Récupération d'un département par son id
@@ -59,7 +55,7 @@ public class DepartementServiceImpl implements IDepartementService {
 
 }
     	
-    	
+	@Transactional
     //Ajout d'une département	
 	public Integer ajouterDepartement(Departement dep) {
 		try{
@@ -76,13 +72,9 @@ public class DepartementServiceImpl implements IDepartementService {
 	}
 	//Affectation d'une département à une entreprise
 	public Departement affecterDepartementAEntreprise(int depId, int entrepriseId) {
-<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 		         try {
 
 
-=======
-				try {
->>>>>>> junit
 					l.info("In affecterDepartementAEntreprise()");
 					l.debug("Je vais récupérer le département par son id");
 					Optional<Departement> departementManaged=deptRepoistory.findById(depId);
@@ -101,19 +93,11 @@ public class DepartementServiceImpl implements IDepartementService {
 					l.debug("entreprise est affectée a l'entreprise avec succées,id de département est   = "+depManagedEntity.getId());
 					l.info("Out ajouterDepartement()");
 					return depManagedEntity;
-<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 						}
 				}
 				catch (Exception e) {
 					l.error("erreur dans la methode affecterDepartementAEntreprise() :"+e);
 
-=======
-
-				}
-				catch (Exception e) {
-					l.error("erreur dans la methode affecterDepartementAEntreprise() :"+e);
-				    return null;
->>>>>>> junit
 				}
 				return null;
 				
@@ -130,14 +114,9 @@ public class DepartementServiceImpl implements IDepartementService {
 		    deptRepoistory.delete(departement.get());
 			l.debug("Département supprimé avec succés");
 			l.info("Out deleteDepartementById()");
-<<<<<<< 392df02cc0fc73b0f8387e81e584f9673e27ad4a
 			}
 			return 1;
 			
-=======
-			return 1;
-
->>>>>>> junit
 		}
 		catch (Exception e) {
 			l.error("erreur dans la methode deleteDepartementById() :"+e);
