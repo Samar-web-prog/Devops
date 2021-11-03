@@ -10,22 +10,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import tn.esprit.spring.converter.DepartementConverter;
+import tn.esprit.spring.dto.DepartementDTo;
 import tn.esprit.spring.entities.Departement;
+import tn.esprit.spring.repository.DepartementRepository;
 import tn.esprit.spring.services.IDepartementService;
 
 @RestController
 public class RestControlDepartement {
 	@Autowired
 	IDepartementService idepartementservice;
+	@Autowired
+	DepartementConverter converter;
+
+	@Autowired
+	DepartementRepository deptRepoistory;
 	
+
 	@GetMapping("/getDepartement")
 	public List<Departement> getAllDepartement(){
 		return idepartementservice.getAllDepartements();
 	}
-	
 	@PostMapping("/ajouterDepartement")
  	@ResponseBody
-	public int ajouterDepartement(@RequestBody Departement dep) {
+	public Integer  ajouterDepartement(@RequestBody DepartementDTo dep) {
 		return idepartementservice.ajouterDepartement(dep);
 	}
  // http://localhost:8081/SpringMVC/servlet/affecterDepartementAEntreprise/1/1

@@ -2,12 +2,14 @@ package tn.esprit.spring.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import tn.esprit.spring.converter.DepartementConverter;
+import tn.esprit.spring.dto.DepartementDTo;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.repository.DepartementRepository;
@@ -21,7 +23,11 @@ public class DepartementServiceImpl implements IDepartementService {
 	DepartementRepository deptRepoistory;
     @Autowired
     EntrepriseRepository entrepriseRepoistory;
-	private static final Logger l = LogManager.getLogger(DepartementServiceImpl.class);
+    @Autowired
+    DepartementConverter converter;
+	
+    
+    private static final Logger l = LogManager.getLogger(DepartementServiceImpl.class);
 	
 	//Récupération de la liste des département
     public List<Departement> getAllDepartements() {
@@ -40,6 +46,7 @@ public class DepartementServiceImpl implements IDepartementService {
 			return list;
 		}		
 	}
+    
     //Récupération d'un département par son id
 	public Departement getDepartmentById(int departmentId) {
 		try {
@@ -55,21 +62,22 @@ public class DepartementServiceImpl implements IDepartementService {
 
 }
     	
-	@Transactional
     //Ajout d'une département	
-	public Integer ajouterDepartement(Departement dep) {
+	public Integer ajouterDepartement(DepartementDTo dep) {
 		try{
 			l.info("In ajouterDepartement()");
-			deptRepoistory.save(dep);
-			l.debug("departement ajouté et portant la ref  = "+dep.getId());
-			l.info("Out ajouterDepartement()");
-			return dep.getId();
+			Departement depart=converter.depTodo(dep);
+			deptRepoistory.save(depart);
+			l.debug("departement ajouté et portant la ref  = "+depart.getId());
+			return depart.getId();
 		} catch (Exception e) {
 			l.error("erreur dans la methode ajouterContrat() :"+e);
 			return null;
 		}
 		
+		
 	}
+
 	//Affectation d'une département à une entreprise
 	public Departement affecterDepartementAEntreprise(int depId, int entrepriseId) {
 		         try {
@@ -154,5 +162,9 @@ public class DepartementServiceImpl implements IDepartementService {
 		}
 
 		}
+	
+	
+	
+
 
 }
