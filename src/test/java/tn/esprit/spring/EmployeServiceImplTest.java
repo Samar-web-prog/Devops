@@ -1,11 +1,7 @@
 package tn.esprit.spring;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-
 import java.util.List;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -14,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
-
+import tn.esprit.spring.dto.EmployeDTo;
 import tn.esprit.spring.entities.Contrat;
-import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.repository.ContratRepository;
 import tn.esprit.spring.repository.DepartementRepository;
 import tn.esprit.spring.repository.EmployeRepository;
-import tn.esprit.spring.repository.EntrepriseRepository;
 import tn.esprit.spring.services.IEmployeService;
 import tn.esprit.spring.services.IEntrepriseService;
 
@@ -54,29 +48,18 @@ public class EmployeServiceImplTest {
 	
 	@Test
 	public void testAjouterEmploye()  {      
-		 idE=iempserv.addOrUpdateEmploye(new Employe("siwar","hassen", "siwar.hassen@gmail.com","xx", true, Role.ADMINISTRATEUR));
+		 idE=iempserv.addOrUpdateEmploye(new EmployeDTo("siwar","hassen", "siwar.hassen@gmail.com","xx", true, Role.ADMINISTRATEUR));
 		 l.info("employe ajouté avec succes");
-		 assertNotNull(idE);
+		 Assert.notNull(idE,"employe added failed");
 	}
 	
 
-	/*@Test
-	public void testgetSalaireByEmployeIdJPQL() {
-		
-		 float salaires = iempserv.getSalaireByEmployeIdJPQL(2);
-		 l.info("salaire recupéré avec succes");
-		 assertEquals(0, salaires);
-		
-	}*/
-
-	
-	
 	@Test
 	public void testgetAllEmployeByEntreprise() {
 		Entreprise e =entrs.getEntrepriseById(2);
 		List<Employe> employes = iempserv.getAllEmployeByEntreprise(e);
 	 l.info(employes);
-		assertNotNull(employes);
+	 Assert.notNull(employes,"get employe failed");
 	}
 
 	
@@ -86,23 +69,17 @@ public class EmployeServiceImplTest {
 		
 		List<String> le =iempserv.getAllEmployeNamesJPQL();
 		 l.info(le);
-		assertNotNull(le);
+		 Assert.notNull(le,"employes by names error");
 	}
 
 	
 	@Test
 	public void testgetAllEmployes(){
-	
-		
 		List<Employe> employes =iempserv.getAllEmployes();
-		
 	      l.info(employes);
-
-		assertNotNull(employes);
+	      Assert.notNull(employes,"get employes null");
 	}
 
-	
-	
 	@Test
 	public void testaffecterContratAEmploye() {
 		int employeId = 1 ;
@@ -113,7 +90,7 @@ public class EmployeServiceImplTest {
 		cont.setEmploye(emp);
 		iempserv.affecterContratAEmploye(contratId, employeId);
 		l.info("contrat affecte a l'employe avec succes");
-		assertNotNull(cont);
+		  Assert.notNull(cont,"contrat null");
 		}
 			
 	}
@@ -123,7 +100,7 @@ public class EmployeServiceImplTest {
 		
 		 String prenom = iempserv.getEmployePrenomById(1);
 		 l.info("prénom de l'employe recupere avec succes");
-		assertNotNull(prenom);
+		  Assert.notNull(prenom,"prenom failed");
 	}
 	
 	
@@ -137,28 +114,15 @@ public class EmployeServiceImplTest {
 
 	    if(emp != null){
 			 l.info("employe recupere avec succes");
-		assertNotNull(emp.getDepartements());
+			 Assert.notNull(emp.getDepartements(),"emp failed");
 		
 	    }
 	}
 	
-
-	/*@Test
-	public void testgetSalaireMoyenByDepartementId() {
-		
-		 Double salaireMoyen = iempserv.getSalaireMoyenByDepartementId(1);
-		
-		 assertEquals(0, salaireMoyen);
-	}
-	*/
-	
-	
 	@Test
 	public void testmettreAjourEmailByEmployeIdJPQL() {
-		
 		 Integer nombre = iempserv.getNombreEmployeJPQL();
-			 assertNotNull(nombre);
-		 
+		 Assert.notNull(nombre,"nombre null");
 	}
 	
 	
@@ -166,13 +130,12 @@ public class EmployeServiceImplTest {
 	public void testaffecterEmployeADepartement() {
 		int departementId = 1 ;
 		int empId = 8;  // +1  update this id  by one each time I  run Junit test 
-		Employe Emp = empr.findById(empId).orElse(null);
-		Departement Dep = deprepo.findById(departementId).orElse(null);
-		if (Emp != null){
+		Employe employe = empr.findById(empId).orElse(null);
+		if (employe != null){
 		 l.info("employe recupere avec succes");
 		iempserv.affecterEmployeADepartement(empId, departementId);
 		 l.info("employe affecté au département avec succes");
-		assertNotNull(Emp);
+		 Assert.notNull(employe,"employe failed");
 		}
 			
 	}
@@ -183,7 +146,7 @@ public class EmployeServiceImplTest {
 		if(e!=null)
 		{
 			l.info("authentification terminée avec succes");
-			assertNotNull(e);
+			 Assert.notNull(e,"authentication failed");
 		}
 		}
 			
@@ -195,12 +158,13 @@ public class EmployeServiceImplTest {
 			{
 			int i = iempserv.deleteEmployeById(idE);
 			l.info("suppression  avec succes");
-			assertEquals(0, i);
+	assertEquals(0, i);
 			}
 			else {
 				int i = iempserv.deleteEmployeById(2);
 				l.info("suppression  avec succes");
 				assertEquals(0, i);
+
 			}
 	}
 	

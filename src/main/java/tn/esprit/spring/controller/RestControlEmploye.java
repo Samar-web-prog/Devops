@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import tn.esprit.spring.converter.EmployeConverter;
+import tn.esprit.spring.dto.EmployeDTo;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.services.IEmployeService;
@@ -29,14 +31,16 @@ public class RestControlEmploye {
 	@Autowired
 	ITimesheetService itimesheetservice;
 
-	
+	 @Autowired
+	 EmployeConverter converter;
 	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
 	@PostMapping("/ajouterEmployer")
 	@ResponseBody
-	public Employe ajouterEmploye(@RequestBody Employe employe)
+	public Employe ajouterEmploye(@RequestBody EmployeDTo employe)
 	{
 		iemployeservice.addOrUpdateEmploye(employe);
-		return employe;
+		return converter.empTodo(employe);
+
 	}
 	
 	// Modifier email : http://localhost:8081/SpringMVC/servlet/modifyEmail/1/newemail

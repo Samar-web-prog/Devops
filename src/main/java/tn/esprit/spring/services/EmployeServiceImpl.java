@@ -3,11 +3,11 @@ package tn.esprit.spring.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import tn.esprit.spring.converter.EmployeConverter;
+import tn.esprit.spring.dto.EmployeDTo;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
@@ -29,19 +29,19 @@ public class EmployeServiceImpl implements IEmployeService {
 	ContratRepository contratRepoistory;
 	@Autowired
 	TimesheetRepository timesheetRepository;
+	 @Autowired
+	 EmployeConverter converter;
 
 	private static final Logger l = LogManager.getLogger(EmployeServiceImpl.class);
 
-	
-	
-
 	@Override
-	public Integer addOrUpdateEmploye(Employe employe) {
+	public Integer addOrUpdateEmploye(EmployeDTo employe) {
 		
 		try {
 			l.info("In addOrUpdateEmploye()");
 			l.debug("je vais enregistrer ou modifier l'employe");
-			employeRepository.save(employe);
+			Employe emp=converter.empTodo(employe);
+			employeRepository.save(emp);
 			l.debug("je viens de finir la modification ou l'ajout de l'employe portant l'id: "+employe.getId() );
 			l.info("Out addOrUpdateEmploye()");
 		return employe.getId();
