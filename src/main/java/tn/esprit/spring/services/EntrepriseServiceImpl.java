@@ -8,27 +8,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.spring.converter.EntrepriseConverter;
+import tn.esprit.spring.dto.EntrepriseDTo;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Entreprise;
+import org.apache.log4j.Logger;
 import tn.esprit.spring.repository.EntrepriseRepository;
 import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 @Service
 public class EntrepriseServiceImpl implements IEntrepriseService {
 
 	@Autowired
     EntrepriseRepository entrepriseRepoistory;
+	@Autowired
+    EntrepriseConverter converter;
 	private static final Logger l = LogManager.getLogger(EntrepriseServiceImpl.class);
 	
 	// Méthode qui permet d'a
 	
 	@Transactional
-	public Integer ajouterEntreprise(Entreprise entreprise) {
+	public Integer ajouterEntreprise(EntrepriseDTo entreprise) {
 		
 		try{
 			l.info("In methode ajouterEntreprise()");
-			entrepriseRepoistory.save(entreprise);
+			Entreprise en = converter.entrepriseTodo(entreprise);
+			entrepriseRepoistory.save(en);
 			l.debug("entreprise ajouté et portant la ref = "+entreprise.getId());
 			l.info("Out methode ajouterEntreprise()");
 			return entreprise.getId();
@@ -38,6 +43,7 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 		}	
 		
 	}
+
 	
 	@Transactional
 	public List<String> getAllDepartementsNamesByEntreprise(int entrepriseId) {

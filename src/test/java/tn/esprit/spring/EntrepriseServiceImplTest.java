@@ -12,6 +12,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import tn.esprit.spring.dto.EntrepriseDTo;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.repository.EntrepriseRepository;
 import tn.esprit.spring.services.IEntrepriseService;
@@ -27,14 +29,14 @@ public class EntrepriseServiceImplTest {
 	@Autowired
     EntrepriseRepository entrepriseRepoistory;
 	
-	Integer idE=1;
+	Integer idE=23;
 	
 	// Tester la méthode qui permet d'ajouter une entreprise
 	
 	@Test
 	public void testAjouterEntreprise()  {  
 		l.info("In methode testAjouterEntreprise()");
-		 idE=ientrepriseservice.ajouterEntreprise(new Entreprise("sabrine","sab "));
+		 idE=ientrepriseservice.ajouterEntreprise(new EntrepriseDTo("sabrine","sabrine"));
 		assertNotNull(idE);
 		l.info("Out methode testAjouterEntreprise()");
 	}

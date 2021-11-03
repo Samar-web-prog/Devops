@@ -9,6 +9,7 @@ import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.services.IEmployeService;
 import tn.esprit.spring.services.IEntrepriseService;
 import tn.esprit.spring.services.ITimesheetService;
+import tn.esprit.spring.dto.EntrepriseDTo;
 
 @Controller
 public class ControllerEntrepriseImpl{
@@ -20,7 +21,7 @@ public class ControllerEntrepriseImpl{
 	@Autowired
 	ITimesheetService itimesheetservice;
 
-	public int ajouterEntreprise(Entreprise ssiiConsulting) {
+	public int ajouterEntreprise(EntrepriseDTo ssiiConsulting) {
 		ientrepriseservice.ajouterEntreprise(ssiiConsulting);
 		return ssiiConsulting.getId();
 	}
