@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import tn.esprit.spring.dto.DepartementDTo;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.repository.DepartementRepository;
@@ -46,10 +47,9 @@ public class DepartementServiceImplTest {
 	@Test
 	public void testAjouterDepartement(){
 		l.info("Je vais tester l'ajout d'une département");
-		Departement d = new Departement ("IT Dep");
-		int dAdded = DepService.ajouterDepartement(d);
-	 assertEquals(0,dAdded);
-
+		DepartementDTo d = new DepartementDTo ("IT Dep");
+		Integer dAdded = DepService.ajouterDepartement(d);
+		assertNotNull(dAdded);
 		l.info("departement ajouté avec succés");
 	}
 	//Tester la méthode suppression d'une département
