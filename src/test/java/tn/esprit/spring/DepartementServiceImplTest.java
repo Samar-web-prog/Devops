@@ -67,7 +67,7 @@ public class DepartementServiceImplTest {
 	@Test
 	public void testAffecterDepartementAEntreprise() {
 		l.info("je vais tester affectation de département à une entreprise");
-		int entrepriseId = 1 ;
+		int entrepriseId = 2;
 		int depId = 56;  // +1  update this id  by one each time I  run Junit test 
 		l.debug("Récupération de département par son id");
 		Departement Dep = deptRepoistory.findById(depId).orElse(null);

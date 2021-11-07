@@ -14,10 +14,13 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 import tn.esprit.spring.config.LoginFilter;
+import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
 
 @SpringBootApplication
 @EnableAutoConfiguration
 public class TimesheetApplication {
+	  private final static Logger log = LogManager.getLogger(TimesheetApplication.class);
 
 	public static void main(String[] args) {SpringApplication.run(TimesheetApplication.class, args);}
 
