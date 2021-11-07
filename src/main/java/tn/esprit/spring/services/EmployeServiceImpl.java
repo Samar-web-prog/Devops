@@ -59,9 +59,18 @@ public class EmployeServiceImpl implements IEmployeService {
 			
 		try {
 			l.info("In authenticate()");
-			l.debug("we will do the authentification");
+			l.debug("je vais faire l'authentification");
 			Employe authenticate=employeRepository.getEmployeByEmailAndPassword(login, password);
-			l.debug("authenticate done");
+			if (authenticate != null) {
+				l.info("success authentification");
+			}else {
+				if (login.equals("") || password.equals("")) {
+					l.warn("login and password musn't be empty ! ");
+				}else {
+					l.warn(" Employe doesn't exist!");
+				}
+			}
+			l.debug(" je viens de terminer authentication");
 			l.info("Out authenticate()");
 			return authenticate;
 			
@@ -73,35 +82,207 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 	
 
+	
 
-	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {
-		
+	
+	public List<Employe> getAllEmployes() {
+		List<Employe> listemployes=new ArrayList<>();
 		try
 		{
-			l.info("In mettreAjourEmailByEmployeIdJPQL ");			
-			l.debug("je vais mettre a jour email by employe");
-			employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
-			l.debug("l'email est mis à ajour");
-			l.info("Out mettreAjourEmailByEmployeIdJPQL with success");
-			
-			
+			l.info("methode getAllEmployes ");
+			l.debug("je vais recuperer la liste de tous les employees");
+		 listemployes=(List<Employe>) employeRepository.findAll();
+			l.debug("la liste des employees est"+listemployes);
+			l.info("Out getAllEmployes with success");
 		}
-		catch (Exception e) {
-			l.error("erreur in methode mettreAjourEmailByEmployeIdJPQL : " +e);
-			
+		catch (Exception e) {	
+			l.error("erreur In getAllEmployes : " +e);
 		}
-	
-		
-
+		return listemployes;
 	}
 	
 	
+	
+	
+	public float getSalaireByEmployeIdJPQL(int employeId) {
+		
+		try
+		{
+			l.info("methode getSalaireByEmployeIdJPQL ");		
+			l.debug("je vais recuperer le salaire de l'employe by id");
+			
+			float salairebyembyid=employeRepository.getSalaireByEmployeIdJPQL(employeId);
+			l.debug("le salaire de l'employe by id est"+salairebyembyid);
+			l.info("Out getSalaireByEmployeIdJPQL with success");
+			
+			return salairebyembyid;
+		}
+		catch (Exception e) {
+			l.error("erreur in methode getSalaireByEmployeIdJPQL : " +e);
+			return 0;
+		}
+	
+		
+		
+	}
+	
+	public int deleteEmployeById(int employeId)
+	{
+		try {
+			l.info("In deleteEmployeById ");
+			l.debug("je vais recuperer l'employe selon l'id ");
+	     	Optional<Employe> employe = employeRepository.findById(employeId);
+	     	if(employe.isPresent())
+	     	{
+	     		for(Departement dep : employe.get().getDepartements()){
+	     			l.debug("je vais desaffecter l'employe d'un departement ");
+	     			dep.getEmployes().remove(employe.get());
+	     		}
+	     		l.debug("je vais supprimer l'employe par son id"+employeId);
+	     		employeRepository.delete(employe.get());
+	     		l.debug("je viens de faire deleteEmployeById ");
+	     		l.info("Out deleteEmployeById with success");
+	     		return 1;
+	     	}	
+	     	else
+	     	{
+	     		l.warn("there is no employe");
+	     		return 0;	
+	     	}	
+		}	
+		catch (Exception e) {
+			l.error("erreur methode deleteEmpolyeById() : " +e);
+			return 0;
+		}
+	}
+	
+	
+	public String getEmployePrenomById(int employeId) {
+		String prenom=null;
+		try {
+			
+			l.info(" In getEmployePrenomById() ");
+			l.debug("je vais recuperer le prenom de l'employe by id ");
+		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
+		if(employeManagedEntity.isPresent())
+		{prenom=employeManagedEntity.get().getPrenom();
+			l.debug("je viens de recuperer getEmployePrenomById");
+			l.info("out getEmployePrenomById()"+prenom);
+			
+			
+		}
+		else
+		{
+			l.warn("employe doesn't exist with id"+employeId);
+		}
+		}
+		catch (Exception e) {
+			l.error("erreur in methode getEmployeeById() : " +e);
+			
+		}
+		return prenom;
+
+	}
+	
+	public Integer getNombreEmployeJPQL() {
+		int nbremploye=0;
+		try {
+			l.info("In getNombreEmployeJPQL() ");
+			l.debug("je vais recevoir le nombre des employes ");
+			 nbremploye=employeRepository.countemp();
+			l.debug("le nombre des employes est "+nbremploye);
+			l.info("Out deleteEmployeById");
+		}
+		catch (Exception e) {
+			l.error("erreur methode getNombreEmployeJPQL : " +e);	
+		}
+		return nbremploye;
+	}
+	
+	public List<String> getAllEmployeNamesJPQL() {
+		
+		List <String> namesofemployes = new ArrayList<>() ; 
+		try {
+			l.info("In getAllEmployeNamesJPQL() ");			
+			l.debug("je vais recuperer les noms des employes");
+			namesofemployes = employeRepository.employeNames();
+			l.debug("je viens de recuperer les noms des employes");
+			l.info("out getAllEmployeNamesJPQL()");
+		}catch(Exception e) {
+			l.error(e.toString());
+		}
+		return namesofemployes;
+	}
+	
+	public void mettreAjourEmailByEmployeIdJPQL(String email, int employeId) {
+		
+		if(email.equals(""))
+		{
+			l.warn("this email is empty ");
+		}
+		else
+		{
+			try
+			{
+				l.info("In mettreAjourEmailByEmployeIdJPQL() ");			
+				l.debug("je vais mettre a jour email by employe");
+				employeRepository.mettreAjourEmailByEmployeIdJPQL(email, employeId);
+				l.debug("l'email est mis à ajour");
+				l.info("Out mettreAjourEmailByEmployeIdJPQL() with success");
+			}
+			catch (Exception e) {
+				l.error("erreur in methode mettreAjourEmailByEmployeIdJPQL : " +e);
+			}
+		}
+
+	}
+	
+	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise) {
+		List<Employe> allemployees=new ArrayList<>();
+		try
+		{
+			l.info("In getAllEmpaffeloyeByEntreprise() ");			
+			l.debug("je vais recuperer des employes By entreprise");
+			allemployees=employeRepository.getAllEmployeByEntreprisec(entreprise);
+			l.debug("la liste des employeesByentreprise"+allemployees);
+			l.info("Out getAllEmployeByEntreprise() with success");
+		
+		}
+		catch (Exception e) {
+			
+			l.error("erreur in methode getAllEmployeByEntreprise:" +e);
+		
+		}
+		return allemployees;
+	}
+	
+	
+	
+	public Double getSalaireMoyenByDepartementId(int departementId) {
+		
+		try
+		{
+			l.info("methode getSalaireMoyenByDepartementId() ");
+			l.debug("je vais recuperer le salaire moyenBydepartement");
+			double salaire=employeRepository.getSalaireMoyenByDepartementId(departementId);
+			l.debug("le salaire de l'employe by departement est"+salaire);
+			l.info("Out getSalaireMoyenByDepartementId() with success");
+			
+			return salaire;
+		}
+		catch (Exception e) {
+			l.error("erreur in methode getSalaireMoyenByDepartementId : " +e);
+			return null;
+		}
+		
+		
+	}
+
 	@Transactional	
 	public void affecterEmployeADepartement(int employeId, int depId) {
 		
 try {
 	l.info("In affecterEmployeADepartement()");
-	
 	l.debug("je vais recuperer le departement");
 	Optional<Departement> depManagedEntity = deptRepoistory.findById(depId);
 	
@@ -127,44 +308,22 @@ try {
 		deptRepoistory.save(depManagedEntity.get()); 
 		l.debug("je viens de finir effecterEmployeAdepartement ");
 		l.info("Out effecterEmployeAdepartement()");
-		}}
-catch (Exception e) {
-	l.error("erreur in methode affecterEmployeADepartement() : " +e);
+		}
+	 else
+	 {
+		 l.warn("there is no department");
+	 }
+	 
+	}
+	catch (Exception e) {
+		l.error("erreur in methode affecterEmployeADepartement() : " +e);
 	
-}		
+	}		
 
 	}
-	
-	
-	
-	
-	
-	
-	public void mettreAjourEmailByEmployeId(String email, int employeId) {
-		
-		try {
-			l.info("In mettreAjourEmailByEmployeId()");
-			
-			
-			l.debug("je vais recuperer l'id de l'employee");
-		Employe employe =employeRepository.findById(employeId).orElse(null);	
-		
-		
-		if(employe!=null){
-			
-			l.debug("je vais modifier l'email "+ email +"de l'employe portant l'id"+employe.getId());
-		employe.setEmail(email);
-		employeRepository.save(employe);	
-		l.debug("je viens de modifier l'email de l'employe "+employe.getId());
-		l.info("Out mettreAjourEmailByEmployeId avec success ");
-		
-		}
-		}
-		catch (Exception e) {
-			l.error("erreur in methode mettreAjourEmailByEmployeId(): " +e);
-		}
 
-	}
+	
+	
 	@Transactional
 	public void desaffecterEmployeDuDepartement(int employeId, int depId)
 	{
@@ -174,26 +333,31 @@ catch (Exception e) {
 			
 			
 			l.debug("je vais recuperer le departement selon l'id ");
-		Departement dep = deptRepoistory.findById(depId).orElse(null);
-if(dep!=null){
-		int employeNb = dep.getEmployes().size();
-		for(int index = 0; index < employeNb; index++){
-			if(dep.getEmployes().get(index).getId() == employeId){
-				l.debug("je vais supprimer un employe dans un departement");
-				dep.getEmployes().remove(index);
-				break;
+			Departement dep = deptRepoistory.findById(depId).orElse(null);
+			if(dep!=null){
+				int employeNb = dep.getEmployes().size();
+				l.info("supprimer Employee d'un Departement : " + dep.getName() );
+				for(int index = 0; index < employeNb; index++){
+					if(dep.getEmployes().get(index).getId() == employeId){
+						l.debug("je vais supprimer un employe dans un departement");
+						dep.getEmployes().remove(index);
+						l.info("Employee supprime avec succes !");
+						break;
 				
+					}
+					l.debug("je viens de finir desaffecterEmployeDuDepartement");
+					l.info("Out desaffecterEmployeDuDepartement()");
+				}
+					}
+			else
+			{
+				l.warn("no department with id"+depId);
 			}
-			l.debug("je viens de finir desaffecterEmployeDuDepartement");
-			l.info("Out desaffecterEmployeDuDepartement()");
-		}}
 		}
-		catch (Exception e) {
-			l.error("erreur in methode desaffecterEmployeDuDepartement() : " +e);}
+			catch (Exception e) {
+				l.error("erreur in methode desaffecterEmployeDuDepartement() : " +e);}
 	} 
 	
-	// Tablesapce (espace disque) 
-
 
 
 	public void affecterContratAEmploye(int contratId, int employeId) {
@@ -218,9 +382,12 @@ if(dep!=null){
 			}
 			
 			}
+		else
+		{
+			l.warn("therie is no employe with id"+employeId);
 		}
 		
-		
+		}	
 		catch (Exception e) {
 			l.error("erreur in methode affecterContratAEmploye() : " +e);
 			
@@ -230,199 +397,54 @@ if(dep!=null){
 	}
 
 	
-	
-	public String getEmployePrenomById(int employeId) {
-	
-		try {
-			String prenom=null;
-			l.info(" In getEmployePrenomById() ");
-			
-			l.debug("je vais recuperer le prenom de l'employe by id ");
-		Optional<Employe> employeManagedEntity = employeRepository.findById(employeId);
-		if(employeManagedEntity.isPresent())
-		{
-			l.debug("je viens de recuperer getEmployePrenomById ");
-			l.info(" out getEmployePrenomById() ");
-			prenom=employeManagedEntity.get().getPrenom();
-			
-		}
-	
-		return prenom;
-		}
-		catch (Exception e) {
-			l.error("erreur in methode getEmployeeById() : " +e);
-			return null;
-		}
-		
 
-	}
 
-	
-	
-	
-	public int deleteEmployeById(int employeId)
-	{
-		
+
+	public void mettreAjourEmailByEmployeId(String email, int employeId) {
 		
 		try {
-			l.info("In deleteEmployeById ");
+			l.info("In mettreAjourEmailByEmployeId()");
 			
-			l.debug("je vais recuperer l'employe selon l'id ");
-		Optional<Employe> employe = employeRepository.findById(employeId);
-if(employe.isPresent())
-{
-	for(Departement dep : employe.get().getDepartements()){
-		l.debug("je vais desaffecter l'employe d'un departement ");
-		dep.getEmployes().remove(employe.get());
-	
-	}
-l.debug("je vais supprimer l'employe par son id"+employeId);
-	employeRepository.delete(employe.get());
-	l.debug("je viens de faire deleteEmployeById ");
-	l.info("Out deleteEmployeById with success");
-	return 1;
-}
-		return 0;
-	
-		
-		}
-		
-		
-		catch (Exception e) {
-			l.error("erreur methode deleteEmpolyeById() : " +e);
-			return 0;
-		}
-	}
-
-
-
-	
-	
-	public Integer getNombreEmployeJPQL() {
-		
-		try {
-			l.info("In deleteEmployeById ");
-			l.debug("je vais recevoir le nombre des employes ");
-		
-			int nbremploye=employeRepository.countemp();
 			
-			l.debug("le nombre des employes est "+nbremploye);
-			l.info("Out deleteEmployeById");
-			return nbremploye;
+			l.debug("je vais recuperer l'id de l'employee");
+		Employe employe =employeRepository.findById(employeId).orElse(null);	
+		
+		
+		if(employe!=null){
+			if(!email .equals(""))
+			{
+				l.debug("je vais modifier l'email "+ email +"de l'employe portant l'id"+employe.getId());
+				employe.setEmail(email);
+				employeRepository.save(employe);	
+				l.debug("je viens de modifier l'email de l'employe "+employe.getId());
+				l.info("Out mettreAjourEmailByEmployeId avec success ");
+			}
+			else
+			{
+				l.warn("email vide");
+			}
+			
 		
 		}
-
-		catch (Exception e) {
-			l.error("erreur methode getNombreEmployeJPQL : " +e);
-			return 0;
-		}
-		
-		
-		
-		
-	}
-
-	public List<String> getAllEmployeNamesJPQL() {
-		
-		l.info("In getAllEmployeNamesJPQL");
-		l.debug("je vais récupérer names of employes");
-		 List<String> a = employeRepository.employeNames();
-		l.debug("je viens récupérer les noms des tous les employes");
-		l.info("out getAllEmployeNamesJPQL");
-		return a;
-
-	}
-
-	
-	
-	public List<Employe> getAllEmployeByEntreprise(Entreprise entreprise) {
-		List<Employe> allemployees=new ArrayList<>();
-		try
+		else
 		{
-			l.info("In getAllEmpaffeloyeByEntreprise ");			
-			l.debug("je vais recuperer des employes By entreprise");
-			allemployees=employeRepository.getAllEmployeByEntreprisec(entreprise);
-			l.debug("la liste des employeesByentreprise"+allemployees);
-			l.info("Out getAllEmployeByEntreprise with success");
-			return allemployees;
-		}
-		catch (Exception e) {
-			allemployees.clear();
-			l.error("erreur in methode getAllEmployeByEntreprise : " +e);
-			return allemployees;
+			l.warn("employe with id "+employeId +"is not found");
 		}
 		
-	}
+		
+		
+		}
+		catch (Exception e) {
+			l.error("erreur in methode mettreAjourEmailByEmployeId(): " +e);
+		}
 
+	}
 	
 	
 	
 
 
-	public float getSalaireByEmployeIdJPQL(int employeId) {
-		
-		try
-		{
-			l.info("methode getSalaireByEmployeIdJPQL ");		
-			l.debug("je vais recuperer le salaire de l'employe by id");
-			
-			float salairebyembyid=employeRepository.getSalaireByEmployeIdJPQL(employeId);
-			l.debug("le salaire de l'employe by id est"+salairebyembyid);
-			l.info("Out getSalaireByEmployeIdJPQL with success");
-			
-			return salairebyembyid;
-		}
-		catch (Exception e) {
-			l.error("erreur in methode getSalaireByEmployeIdJPQL : " +e);
-			return 0;
-		}
-	
-		
-		
-	}
 
-	public Double getSalaireMoyenByDepartementId(int departementId) {
-		
-		try
-		{
-			l.info("methode getSalaireMoyenByDepartementId ");
-			l.debug("je vais recuperer le salaire moyenBydepartement");
-			double salaire=employeRepository.getSalaireMoyenByDepartementId(departementId);
-			l.debug("le salaire de l'employe by departement est"+salaire);
-			l.info("Out getSalaireMoyenByDepartementId with success");
-			
-			return salaire;
-		}
-		catch (Exception e) {
-			l.error("erreur in methode getSalaireMoyenByDepartementId : " +e);
-			return null;
-		}
-		
-		
-	}
-
-
-
-	public List<Employe> getAllEmployes() {
-		List<Employe> listemployes=new ArrayList<>();
-		try
-		{
-			l.info("methode getAllEmployes ");
-			l.debug("je vais recuperer la liste de tous les employees");
-		 listemployes=(List<Employe>) employeRepository.findAll();
-			l.debug("la liste des employees est"+listemployes);
-			l.info("Out getAllEmployes with success");
-			
-			return listemployes;
-		}
-		catch (Exception e) {
-			listemployes.clear();
-			l.error("erreur In getAllEmployes : " +e);
-			return listemployes;
-		}
-		
-		
-	}
 
 
 
