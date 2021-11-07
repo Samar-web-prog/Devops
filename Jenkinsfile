@@ -8,6 +8,8 @@ agent any
 stages{
 stage('clone and clean repo'){
 steps {
+bat "rd /s /q Devops"
+bat "rd /s /q Devops@tmp"
 bat "git clone -b samar_Branch https://github.com/Samar-web-prog/Devops.git"
 bat "mvn clean -f Devops"
 bat "mvn install -f Devops"
