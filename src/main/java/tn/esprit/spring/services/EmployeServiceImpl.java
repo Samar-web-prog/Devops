@@ -158,7 +158,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	
 	
 	public String getEmployePrenomById(int employeId) {
-		String prenom=null;
+		String prenom="";
 		try {
 			
 			l.info(" In getEmployePrenomById() ");
