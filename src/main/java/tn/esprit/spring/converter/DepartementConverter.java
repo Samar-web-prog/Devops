@@ -12,23 +12,19 @@ public class DepartementConverter {
 	
 	   //Transformer departement DTO en Departement
        public Departement depTodo(DepartementDTo departement) {
-    	  // Departement d =new Departement();
-    	   //d.setName(departement.getName());
     	   ModelMapper mapper =new ModelMapper();
-    	   Departement map = mapper.map(departement, Departement.class);
-   		return map;
+    	   return mapper.map(departement, Departement.class);
        }
        
        //Transformer departement en deprtement DTO
        public DepartementDTo entityToDto(Departement dep) {
    		ModelMapper mapper =new ModelMapper();
-   		DepartementDTo map = mapper.map(dep, DepartementDTo.class);
-   		return map;
+   		return mapper.map(dep, DepartementDTo.class);
    		
    	}
        //Retourner la liste des departement DTO
-       public  List<DepartementDTo> deplistToDto(List<Departement> Departement) {
-   		return	Departement.stream().map(x -> entityToDto(x)).collect(Collectors.toList());
+       public  List<DepartementDTo> deplistToDto(List<Departement> departement) {
+   		return	departement.stream().map(x -> entityToDto(x)).collect(Collectors.toList());
    		
    	}
 	

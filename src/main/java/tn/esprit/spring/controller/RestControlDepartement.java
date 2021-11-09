@@ -47,7 +47,11 @@ public class RestControlDepartement {
 	@ResponseBody 
 	public void deleteDepartementById(@PathVariable("iddept") int depId) {
     	idepartementservice.deleteDepartementById(depId);
-	}
+	} 
+    @PutMapping(value = "/desaffecterDepartementAEntreprise/{iddept}/{identreprise}") 
+    public void desaffecterDepartementEntreprise(@PathVariable("iddept")int depId, @PathVariable("identreprise")int entrepriseId){
+    	idepartementservice.desaffecterDepartementDuEntreprise(depId, entrepriseId);
     
+    }
 
 }
