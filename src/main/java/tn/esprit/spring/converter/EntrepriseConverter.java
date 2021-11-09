@@ -14,20 +14,19 @@ public class EntrepriseConverter {
 	//Transformer entreprise DTO en entreprise
     public Entreprise entrepriseTodo(EntrepriseDTo entreprise) {
  	   ModelMapper mapper =new ModelMapper();
- 	  Entreprise map = mapper.map(entreprise, Entreprise.class);
-		return map;
+ 	 return mapper.map(entreprise, Entreprise.class);
+
     }
     
     //Transformer entreprise en entreprise DTO
     public EntrepriseDTo entityToDto(Entreprise entreprise) {
 		ModelMapper mapper =new ModelMapper();
-		EntrepriseDTo map = mapper.map(entreprise, EntrepriseDTo.class);
-		return map;
+		return mapper.map(entreprise, EntrepriseDTo.class);
 		
 	}
     //Retourner la liste des departement DTO
-    public  List<EntrepriseDTo> entrepriselistToDto(List<Entreprise> Entreprise) {
-		return	Entreprise.stream().map(x -> entityToDto(x)).collect(Collectors.toList());
+    public  List<EntrepriseDTo> entrepriselistToDto(List<Entreprise> entreprise) {
+		return	entreprise.stream().map(this::entityToDto).collect(Collectors.toList());
 		
 	}
 }

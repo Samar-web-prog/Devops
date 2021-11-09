@@ -1,12 +1,8 @@
 package tn.esprit.spring.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
 public class EntrepriseDTo {
 	  private int id;
 	  private String name;
@@ -35,6 +31,19 @@ public class EntrepriseDTo {
 		public void setRaisonSocial(String raisonSocial) {
 			this.raisonSocial = raisonSocial;
 		}
+		
+		public EntrepriseDTo() {
+			super();
+		}
+		
+		
+
+		public EntrepriseDTo(int id,String name, String raisonSocial) {
+			super();
+			this.name = name;
+			this.raisonSocial = raisonSocial;
+			this.id = id;
+		}
 
 		public EntrepriseDTo(String name, String raisonSocial) {
 			super();
@@ -42,10 +51,9 @@ public class EntrepriseDTo {
 			this.raisonSocial = raisonSocial;
 		}
 
-		public EntrepriseDTo() {
+		public EntrepriseDTo(int id) {
 			super();
-			// TODO Auto-generated constructor stub
-		}
-		
+			this.id = id;
+		}	
 }
 

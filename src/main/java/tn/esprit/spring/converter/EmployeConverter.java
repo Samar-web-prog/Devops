@@ -13,15 +13,14 @@ public class EmployeConverter {
 	   //Transformer employe DTO en Employe
        public Employe empTodo(EmployeDTo employe) {
     	   ModelMapper mapper =new ModelMapper();
-    	   Employe map = mapper.map(employe, Employe.class);
-   		return map;
+    	   return mapper.map(employe, Employe.class);
        }
        
        //Transformer employe en employe DTO
        public EmployeDTo entityToDto(Employe emp) {
    		ModelMapper mapper =new ModelMapper();
-   		EmployeDTo map = mapper.map(emp, EmployeDTo.class);
-   		return map;
+   		return mapper.map(emp, EmployeDTo.class);
+
    		
    	}
        //Retourner la liste des employe DTO

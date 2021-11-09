@@ -2,16 +2,13 @@ package tn.esprit.spring.controller;
 
 
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
 import tn.esprit.spring.dto.EmployeDTo;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
@@ -30,7 +27,6 @@ IEmployeService employeService;
 	private String login; 
 	private String password; 
 	private Boolean loggedIn;
-
 	private Employe authenticatedUser = null; 
 	private String prenom; 
 	private String nom; 
@@ -66,15 +62,12 @@ IEmployeService employeService;
 	public String doLogout()
 	{
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-	
 	return URL_DUPLI;
 	}
 
 
 	public String addEmploye() {
-
 		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
-
 		employeService.addOrUpdateEmploye(new EmployeDTo(nom, prenom, email, password, actif, role)); 
 		return "null"; 
 	}  
@@ -82,17 +75,13 @@ IEmployeService employeService;
 	public String removeEmploye(int employeId) {
 		String navigateTo = "null";
 		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
-
 		employeService.deleteEmployeById(employeId);
 		return navigateTo; 
 	} 
 
 	public String displayEmploye(Employe empl) 
-	{
-		String navigateTo = "null";
+	{   String navigateTo = "null";
 		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
-
-
 		this.setPrenom(empl.getPrenom());
 		this.setNom(empl.getNom());
 		this.setActif(empl.isActif()); 
@@ -100,19 +89,14 @@ IEmployeService employeService;
 		this.setRole(empl.getRole());
 		this.setPassword(empl.getPassword());
 		this.setEmployeIdToBeUpdated(empl.getId());
-
 		return navigateTo; 
 
 	} 
 
 	public String updateEmploye() 
-	{ 
-		String navigateTo = "null";
-		
+	{   String navigateTo = "null";
 		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
-
 		employeService.addOrUpdateEmploye(new EmployeDTo(employeIdToBeUpdated, nom, prenom, email, password, actif, role)); 
-
 		return navigateTo; 
 
 	} 

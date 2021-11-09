@@ -24,7 +24,7 @@ public class DepartementConverter {
    	}
        //Retourner la liste des departement DTO
        public  List<DepartementDTo> deplistToDto(List<Departement> departement) {
-   		return	departement.stream().map(x -> entityToDto(x)).collect(Collectors.toList());
+   		return	departement.stream().map(this::entityToDto).collect(Collectors.toList());
    		
    	}
 	

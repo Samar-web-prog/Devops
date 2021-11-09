@@ -29,7 +29,7 @@ public class EntrepriseServiceImplTest {
 	@Autowired
     EntrepriseRepository entrepriseRepoistory;
 	
-	Integer idE=22;
+	Integer idE=5;
 	
 	// Tester la méthode qui permet d'ajouter une entreprise
 	

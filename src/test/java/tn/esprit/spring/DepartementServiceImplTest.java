@@ -95,7 +95,7 @@ public class DepartementServiceImplTest {
 	}
 	@Test
 	  public void testGetDepartementById(){
-		int depId = 10;
+		int depId = 1;
 		Departement dep= departementService.getDepartmentById(depId);
 		Assert.notNull(dep,"departement n'exite pas");
 	}

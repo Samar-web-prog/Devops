@@ -1,16 +1,19 @@
 package tn.esprit.spring.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
 public class DepartementDTo {
    private int id;
    private String name;
 
+	  public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
 
 public DepartementDTo(String name) {
 	super();
@@ -25,5 +28,8 @@ public void setName(String name) {
 public String getName() {
 	return name;
 }
+
+
+
 
    }

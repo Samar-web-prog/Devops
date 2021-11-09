@@ -1,13 +1,9 @@
 package tn.esprit.spring.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import tn.esprit.spring.entities.Role;
 
 @Data
-@Getter
-@Setter
 public class EmployeDTo {
    private int id;
    private String nom;

@@ -2,7 +2,6 @@ package tn.esprit.spring.controller;
 
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import tn.esprit.spring.converter.EmployeConverter;
 import tn.esprit.spring.dto.EmployeDTo;
 import tn.esprit.spring.entities.Employe;
@@ -34,7 +32,7 @@ public class RestControlEmploye {
 	 @Autowired
 	 EmployeConverter converter;
 	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
-	/*@PostMapping("/ajouterEmployer")
+	@PostMapping("/ajouterEmployer")
 	@ResponseBody
 	public Employe ajouterEmploye(@RequestBody EmployeDTo employe)
 	{
@@ -42,7 +40,7 @@ public class RestControlEmploye {
 		return converter.empTodo(employe);
 
 	}
-	*/
+	
 	// Modifier email : http://localhost:8081/SpringMVC/servlet/modifyEmail/1/newemail
 	@PutMapping(value = "/modifyEmail/{id}/{newemail}") 
 	@ResponseBody

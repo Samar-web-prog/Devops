@@ -14,13 +14,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Entreprise implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 3152690779535828408L;
 
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
@@ -81,8 +77,6 @@ public class Entreprise implements Serializable{
 		departement.setEntreprise(this);
 		this.departements.add(departement);
 	}
-
-
 
 
 }
