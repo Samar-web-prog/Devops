@@ -101,6 +101,9 @@ public class DepartementServiceImpl implements IDepartementService {
 					l.info("Out ajouterDepartement()");
 					return depManagedEntity;
 						}
+		        	 else{
+		        		 l.warn("Soit département avec l'id"+depId+"n'existe pas ou bien entreprise avec id"+entrepriseId+"n'existe pas");
+		        	 }
 				}
 				catch (Exception e) {
 					l.error("erreur dans la methode affecterDepartementAEntreprise() :"+e);
@@ -121,6 +124,9 @@ public class DepartementServiceImpl implements IDepartementService {
 		    deptRepoistory.delete(departement.get());
 			l.debug("Département supprimé avec succés");
 			l.info("Out deleteDepartementById()");
+			}
+			else{
+				l.warn("Département aved l'id"+depId+"n'existe pas");
 			}
 			return 1;
 			

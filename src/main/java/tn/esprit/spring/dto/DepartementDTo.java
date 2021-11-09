@@ -10,9 +10,7 @@ import lombok.Setter;
 public class DepartementDTo {
    private int id;
    private String name;
-private int getId() {
-	return id;
-}
+
 
 public DepartementDTo(String name) {
 	super();
@@ -20,7 +18,6 @@ public DepartementDTo(String name) {
 }
 public DepartementDTo() {
 	super();
-	// TODO Auto-generated constructor stub
 }
 public void setName(String name) {
 	this.name = name;
