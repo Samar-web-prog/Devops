@@ -11,6 +11,8 @@ import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import tn.esprit.spring.dto.EmployeDTo;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Role;
@@ -41,7 +43,7 @@ IEmployeService employeService;
 
 	private Integer employeIdToBeUpdated; // getter et setter
 
-    public static final String url="/login.xhtml?faces-redirect=true";
+    public static final String URL_DUPLI  ="/login.xhtml?faces-redirect=true";
 	public String doLogin() {
 
 		String navigateTo = "null";
@@ -65,21 +67,21 @@ IEmployeService employeService;
 	{
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	
-	return url;
+	return URL_DUPLI;
 	}
 
 
 	public String addEmploye() {
 
-		if (authenticatedUser==null || !loggedIn) return url;
+		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
 
-		employeService.addOrUpdateEmploye(new Employe(nom, prenom, email, password, actif, role)); 
+		employeService.addOrUpdateEmploye(new EmployeDTo(nom, prenom, email, password, actif, role)); 
 		return "null"; 
 	}  
 
 	public String removeEmploye(int employeId) {
 		String navigateTo = "null";
-		if (authenticatedUser==null || !loggedIn) return url;
+		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
 
 		employeService.deleteEmployeById(employeId);
 		return navigateTo; 
@@ -88,7 +90,7 @@ IEmployeService employeService;
 	public String displayEmploye(Employe empl) 
 	{
 		String navigateTo = "null";
-		if (authenticatedUser==null || !loggedIn) return url;
+		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
 
 
 		this.setPrenom(empl.getPrenom());
@@ -107,9 +109,9 @@ IEmployeService employeService;
 	{ 
 		String navigateTo = "null";
 		
-		if (authenticatedUser==null || !loggedIn) return url;
+		if (authenticatedUser==null || !loggedIn) return URL_DUPLI;
 
-		employeService.addOrUpdateEmploye(new Employe(employeIdToBeUpdated, nom, prenom, email, password, actif, role)); 
+		employeService.addOrUpdateEmploye(new EmployeDTo(employeIdToBeUpdated, nom, prenom, email, password, actif, role)); 
 
 		return navigateTo; 
 
@@ -155,7 +157,7 @@ IEmployeService employeService;
 		this.loggedIn = loggedIn;
 	}
 
-	public int ajouterEmploye(Employe employe)
+	public int ajouterEmploye(EmployeDTo employe)
 	{
 		employeService.addOrUpdateEmploye(employe);
 		return employe.getId();
