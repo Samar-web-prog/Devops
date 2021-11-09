@@ -29,13 +29,13 @@ public class RestControlEntreprise {
 	
 	// Ajouter Entreprise : http://localhost:8081/SpringMVC/servlet/ajouterEntreprise
 	
-	@PostMapping("/ajouterEntreprise")
+	/*@PostMapping("/ajouterEntreprise")
 	@ResponseBody
 	public int ajouterEntreprise(@RequestBody Entreprise ssiiConsulting) {
 		ientrepriseservice.ajouterEntreprise(ssiiConsulting);
 		return ssiiConsulting.getId();
 	}
-	
+	*/
     // http://localhost:8081/SpringMVC/servlet/deleteEntrepriseById/1
     @DeleteMapping("/deleteEntrepriseById/{identreprise}") 
 	@ResponseBody 

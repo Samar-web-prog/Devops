@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tn.esprit.spring.converter.ContratConverter;
+import tn.esprit.spring.dto.ContratDTo;
 import tn.esprit.spring.entities.Contrat;
 import tn.esprit.spring.repository.ContratRepository;
 
@@ -17,13 +19,16 @@ public class ContratServiceImpl implements IContratService {
 	
 	@Autowired
 	ContratRepository contratRepository;
+	@Autowired
+	ContratConverter converter;
 	private static final Logger l = LogManager.getLogger(ContratServiceImpl.class);
 	
-	public Integer ajouterContrat(Contrat contrat) {
+	public Integer ajouterContrat(ContratDTo  nvcontrat) {
 		
 		l.info("In ajouterContrat()");
 		try{
 			l.debug("je vais ajouter le contrat  ");
+			Contrat contrat=converter.contdto(nvcontrat);
 			contratRepository.save(contrat);
 			l.debug("contrat ajouté et portant la ref  = "+contrat.getReference());
 			l.info("Out ajouterContrat()");
@@ -69,6 +74,8 @@ public class ContratServiceImpl implements IContratService {
 			l.debug("Suppression des contrats avec succes ");
 			l.info("Out deleteAllContratJPQL() : ");
 	}
+
+	
 
 
 }

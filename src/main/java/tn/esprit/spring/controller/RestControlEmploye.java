@@ -31,14 +31,14 @@ public class RestControlEmploye {
 
 	
 	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
-	@PostMapping("/ajouterEmployer")
+	/*@PostMapping("/ajouterEmployer")
 	@ResponseBody
 	public Employe ajouterEmploye(@RequestBody Employe employe)
 	{
 		iemployeservice.addOrUpdateEmploye(employe);
 		return employe;
 	}
-	
+	*/
 	// Modifier email : http://localhost:8081/SpringMVC/servlet/modifyEmail/1/newemail
 	@PutMapping(value = "/modifyEmail/{id}/{newemail}") 
 	@ResponseBody
