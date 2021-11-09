@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Pattern;
+
 
 @Entity
 public class Contrat implements Serializable {
@@ -29,22 +29,30 @@ public class Contrat implements Serializable {
 	
 	private float telephone;
 	
+	public float getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(float telephone) {
+		this.telephone = telephone;
+	}
+    //Association Avec la classe employé
 	@OneToOne
 	private Employe employe;
 
 	private float salaire;
-
+	   //constructeur par défaut
 	public Contrat() {
 		super();
 	}
-	
+	 //constructeur paramétré
 	public Contrat(Date dateDebut, String typeContrat, float salaire) {
 		this.dateDebut = dateDebut;
 		this.typeContrat = typeContrat;
 		this.salaire = salaire;
 	}
 
-
+	 //getters and setters
 	public Date getDateDebut() {
 		return dateDebut;
 	}
