@@ -4,10 +4,10 @@ services:
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: sab
       MYSQL_DATABASE: timesheet-spring
       MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_PASSWORD: sab
     ports:
       - "3306:3306"
     volumes:
@@ -24,7 +24,7 @@ services:
     restart: always
     ports:
       - 8088:80
-  springboot-docker-container:
+  timesheet:
     build:
       context: "./"
       dockerfile: "Dockerfile"
@@ -34,10 +34,9 @@ services:
       PMA_PASSWORD: secret
     ports:
       - "3002:8082"
-    image: springboot-docker-container
+    image: siwarhassen/devopsimage:${BUILD_NUMBER}
     depends_on:
       - db
       - phpmyadmin
 volumes:
   dbdata:
-  
