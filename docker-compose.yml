@@ -34,7 +34,7 @@ services:
       PMA_PASSWORD: secret
     ports:
       - "3002:8082"
-    image: siwarhassen/devopsimage
+    image: siwarhassen/devopsimage:${BUILD_NUMBER}
     depends_on:
       - db
       - phpmyadmin
