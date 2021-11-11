@@ -6,6 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: sab
       MYSQL_DATABASE: timesheet-spring
+      MYSQL_USER: root
+      MYSQL_PASSWORD: sab
     ports:
       - "3306:3306"
     volumes:
@@ -32,7 +34,7 @@ services:
       PMA_PASSWORD: secret
     ports:
       - "3002:8082"
-    image: siwarhassen/devopsimage:${BUILD_NUMBER}
+    image: sab1998/devopsimage
     depends_on:
       - db
       - phpmyadmin
