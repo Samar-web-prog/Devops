@@ -48,7 +48,7 @@ public class EmployeServiceImplTest {
 	@Test
 	public void testaddOrUpdateEmploye()  {      
 		 l.info("in testaddOrUpdateEmploye()");
-		 idE=iempserv.addOrUpdateEmploye(new EmployeDTo("siwar","siwar", "k@yahoo.tn","xx", true, Role.ADMINISTRATEUR));
+		 idE=iempserv.addOrUpdateEmploye(new EmployeDTo("siwar","siwar", "teststee@yahoo.tn","xx", true, Role.ADMINISTRATEUR));
 		 Assert.notNull(idE,"employe added failed");
 		 l.info("Out testaddOrUpdateEmploye()");
 	}
@@ -57,7 +57,7 @@ public class EmployeServiceImplTest {
 	
 	@Test
 	public void testauthenticate() {
-		Employe e =iempserv.authenticate("k@yahoo.tn","xx");
+		Employe e =iempserv.authenticate("teststee@yahoo.tn","xx");
 		assertNotNull(e);	
 	}
 
@@ -171,7 +171,7 @@ public class EmployeServiceImplTest {
 		
 		@Test
 		public void testdeleteEmployeById()
-		{  Integer id=8;
+		{  Integer id=82;
 				l.info("In methode testDeleteEmployeById()");
 				int i = iempserv.deleteEmployeById(id);
 				assertEquals(1, i);
