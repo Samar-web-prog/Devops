@@ -4,10 +4,10 @@ services:
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: sab
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: timesheet-spring
       MYSQL_USER: root
-      MYSQL_PASSWORD: sab
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
@@ -25,7 +25,9 @@ services:
     ports:
       - 8088:80
   timesheet:
-    build: ./
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
     environment:
       PMA_HOST: mysql-server
       PMA_USER: root
