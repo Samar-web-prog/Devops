@@ -4,9 +4,7 @@ services:
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: sab
       MYSQL_DATABASE: timesheet-spring
-      MYSQL_USER: sab
       MYSQL_PASSWORD: sab
     ports:
       - "3306:3306"
