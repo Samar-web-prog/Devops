@@ -1,43 +1,23 @@
-version: "3.9"
+version: '2.2'
+
 services:
-  db:
-    image: mysql:5.7
-    container_name: db
+
+  myapp-mysql:
+    image: mysql:5.6
     environment:
-      MYSQL_ROOT_PASSWORD: sab
-      MYSQL_DATABASE: timesheet-spring
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=root
     ports:
-      - "3306:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma
-    links:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8088:80
-  springboot-docker-container:
-    build:
-      context: "./"
-      dockerfile: "Dockerfile"
-    environment:
-      PMA_HOST: mysql-server
-      PMA_USER: root
-      PMA_PASSWORD: secret
-    ports:
-      - "3002:8082"
-    image: springboot-docker-container
-    depends_on:
-      - db
-      - phpmyadmin
-volumes:
-  dbdata:
+      - 3307:3306
+
+  timesheet:
   
+    image: samarrmdhn/devopsimage
+    build: ./
+    restart: on-failure
+    depends_on:
+      - myapp-mysql
+    ports:
+      - 8082:8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://myapp-mysql:3306/timesheet?autoReconnect=true&useSSL=false
