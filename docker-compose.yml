@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   db:
-    image: mysql:5.7
+    image: mysql:5.6
     container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
@@ -30,9 +30,8 @@ services:
       context: "./"
       dockerfile: "Dockerfile"
     environment:
-      PMA_HOST: mysql-server
-      PMA_USER: root
-      PMA_PASSWORD: secret
+      SPRING_DATASOURCE_URL: jdbc:mysql://myapp-mysql:3306/timesheet?autoReconnect=true&useSSL=false
+
     ports:
       - "3002:8082"
     image: samarrmdhn/devopsimage:${BUILD_NUMBER}
