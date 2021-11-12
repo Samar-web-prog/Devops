@@ -1,14 +1,13 @@
 version: "3.9"
 services:
   db:
-    image: mysql:5.6
+    image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: sab
       MYSQL_DATABASE: timesheet-spring
       MYSQL_USER: root
       MYSQL_PASSWORD: sab
-      MYSQL_ROOT_HOST: '%' 
     ports:
       - "3306:3306"
     volumes:
@@ -30,8 +29,9 @@ services:
       context: "./"
       dockerfile: "Dockerfile"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/timesheet?autoReconnect=true&useSSL=false
-
+      PMA_HOST: mysql-server
+      PMA_USER: root
+      PMA_PASSWORD: secret
     ports:
       - "3002:8082"
     image: samarrmdhn/devopsimage:${BUILD_NUMBER}
