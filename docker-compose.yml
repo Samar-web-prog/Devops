@@ -30,7 +30,7 @@ services:
       context: "./"
       dockerfile: "Dockerfile"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://myapp-mysql:3306/timesheet?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/timesheet?autoReconnect=true&useSSL=false
 
     ports:
       - "3002:8082"
